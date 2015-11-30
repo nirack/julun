@@ -1,0 +1,46 @@
+1.android app
+采用M(model)V(view)P(presenter)方式解构
+
+model  business 类，处理业务逻辑，这里指数据读写
+view  就是各个界面里的元素了
+presenter  主导器 上下联通 数据（通过business类） 和 视图（view）
+
+前两个没啥好说的
+关于 presenter ， 类似 web 开发 MVC里的controller ，当然实际上也不一样，这是个让人纠结的东西。
+因为这个很难很清晰的分离出来
+这个角色实际是由 Activity 和 Fragment这样的容器来担任的
+有点怪异的感觉，因为这些容器本身也是显示的。。
+但是再细想下，web开发前台界面也分了 MVC了，
+好了就这么理解吧。。。。
+
+关于程序流程：
+
+在需要的时候，主导器（Activity或者Fragment之类的）通过业务服务类，与web服务器异步交互。
+得到返回结果之后，业务服务类讲数据返回给主导器，主导器再根据返回的数据，决定下一步的动作，更新UI或者其他的
+
+以一个例子说明业务的代码流程：
+比如 一个重新加载产品列表的按钮，点击之后，在响应他的OnClick回调里，去通过业务类，从web服务器请求了产品列表
+为避免ANR，请求的过程是异步的，
+在获取数据之后，通过EventBus，给需要处理的controller（比如Activity，Fragment等）post一个事件，
+可以把返回的数据封装成一个 BaseEvent 或其子类对象。
+而在主导器里，会有约定好的方法来接受数据，再根据数据来决定下一步操作。
+
+
+程序的启动以及运行
+每个Activity 和Fragment， <必须> 继承自 BaseActivity 或者 BaseFragment。
+
+在 Activity的 onCreate 和 Fragment的 onCreateView里，初始化各个需要的field，包括里面的views以及要用到的business服务类，以方便后续的调用
+注解采用两种方式，
+1，butterknife，方便好用，效率还过得去。不会成为问题。
+2.自定义的注解，主要用于服务类的注入。
+
+开发的时候需要关心的是，
+1.页面里的子view，如果需要，使用butterknife的 Bind注解。
+2.各个子view组件的事件绑定，自行处理，可以使用butterknife的注解方式，也可以直接通过view.set 或者 add xxxListener，推荐 ButterKnife 注解的方式，代码更易读
+3.如果用到了服务类，使用自定义的 BusinessBean 注解，容器会在初始化的时候实例化需要的服务类。
+
+ListView  和 RecyclerView的的使用例子，参考  com\julun\vehicle\activities 目录下的两个 Activity 
+启动方式在首页点击menu
+
+土鳖康铁牛
+
