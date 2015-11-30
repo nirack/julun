@@ -158,7 +158,7 @@ public class CaptureResultActivity extends AppCompatActivity {
                 Log.v("TestFile", "SD card is not avaiable/writeable right now.");
                 return;
             }
-            
+
             Bundle bundle = data.getExtras();
             //获得相机的返回的数据
             Bitmap bitmap = (Bitmap) bundle.get("data");
