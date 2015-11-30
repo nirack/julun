@@ -145,7 +145,7 @@ public class CaptureResultActivity extends AppCompatActivity {
     //打开camera，实现拍照操作
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, RESULT_LOAD_IMAGE);
     }
 
     @Override
@@ -181,9 +181,16 @@ public class CaptureResultActivity extends AppCompatActivity {
                 fileoutputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            }finally {
+                try {
+                    fileoutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         }
     }
+
 
 }
