@@ -97,7 +97,6 @@ public class CaptureResultActivity extends AppCompatActivity {
 
     }
 
-
     //打开保存的二维码
     private void openPic() {
         startActivity(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI));
