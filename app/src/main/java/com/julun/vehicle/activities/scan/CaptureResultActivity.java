@@ -159,6 +159,7 @@ public class CaptureResultActivity extends AppCompatActivity {
                 return;
             }
 
+            
             Bundle bundle = data.getExtras();
             //获得相机的返回的数据
             Bitmap bitmap = (Bitmap) bundle.get("data");
