@@ -1,0 +1,27 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'F:/MavenRepository' }
+        //首先要在  USER_HOME/.m2 目录下 放置 settings.xml,配置好之后,会使用 settings.xml里配置的  repository.不需要想上面那样直接制定repository的绝对路径了
+//        mavenLocal();
+        mavenCentral();
+        jcenter();
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

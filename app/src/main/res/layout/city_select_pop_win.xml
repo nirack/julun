@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:drawableLeft="@drawable/ic_search_green_a700_24dp"
+        android:hint="@string/city_selector_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--当前定位城市-->
+
+    <RelativeLayout
+        android:background="@drawable/shape_text_btn_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="当前定位城市"
+            android:layout_alignParentLeft="true"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="杭州"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <!--最近访问,列出三个，如果需要更多的时候改用RecycleView-->
+    <ListView
+        android:background="@drawable/shape_text_btn_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+
+</LinearLayout>

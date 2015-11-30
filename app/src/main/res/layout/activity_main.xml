@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.julun.vehicle.activities.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/mainContentCtr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/main_nav_radio"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/white_totally"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/btn_home_page"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableTop="@drawable/ic_home_black_24dp"
+            android:text="@string/txt_home_page"
+            android:textColor="@color/black_totally" />
+
+        <RadioButton
+            android:id="@+id/btn_machine_parts"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableTop="@drawable/ic_search_black_24dp"
+            android:text="@string/txt_machine_parts"
+            android:textColor="@color/black_totally" />
+
+        <RadioButton
+            android:id="@+id/btn_shopping_cart"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableTop="@drawable/ic_shopping_cart_black_24dp"
+            android:text="@string/txt_shopping_cart"
+            android:textColor="@color/black_totally" />
+
+        <RadioButton
+            android:id="@+id/btn_mime_stuff"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+            android:text="@string/txt_mine_stuff"
+            android:textColor="@color/black_totally" />
+
+    </RadioGroup>
+
+
+</RelativeLayout>

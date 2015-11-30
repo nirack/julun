@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.julun.vehicle.activities.examples.RecyclerViewExampleActivity">
+
+    <TextView
+        android:id="@+id/remark1"
+        android:text="测试RecyclerView的 Adapter的用法.\n就不在这里做网络交互了\n布局不好看也别在意了"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></TextView>
+
+    <Button
+        android:text="类ListView"
+        android:id="@+id/remark2"
+        android:layout_below="@+id/remark1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_view"
+        android:layout_below="@+id/remark2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:text="类GridView"
+        android:id="@+id/remark3"
+        android:layout_below="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/grid_view"
+        android:layout_below="@+id/remark3"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

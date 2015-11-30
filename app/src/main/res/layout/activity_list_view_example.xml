@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.julun.vehicle.activities.examples.ListViewExampleActivity">
+
+    <Button
+        android:text="开始"
+        android:id="@+id/btn1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="等待"
+        android:layout_below="@+id/btn1"
+        android:id="@+id/btn2"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@+id/btn2"
+        android:id="@+id/remark"
+        android:text="测试listview的 Adapter的用法.\n就不在这里做网络交互了"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_below="@+id/remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+</LinearLayout>

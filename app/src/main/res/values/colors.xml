@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent2">#FF4081</color>
+
+    <color name="colorAccent">#BE81F7</color>
+
+    <color name="lakeBlue">#0099cc</color>
+
+
+    <color name="white_near_half">#45FFFFFF</color>
+    <color name="white_totally">#FFFFFFFF</color>
+    <color name="black_totally">#FF000000</color>
+    <color name="green_a700">#00C853</color>
+
+    <!-- popwin -->
+    <color name="popup_main_background">#b0000000</color>
+    <color name="black">#000000</color>
+    <color name="choose_eara_item_press_color">#f4f4f4</color>
+    <color name="white">#ffffff</color>
+    <color name="no_color">#00000000</color>
+
+    <color name="red_pressed">#FFFF0000</color>
+    <color name="red_normal">#44FF0000</color>
+
+    <color name="gray" >#ebebeb</color>
+</resources>

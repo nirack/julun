@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="LoopViewPager">
+        <!-- 点击的时候是否停止轮播,默认为true -->
+        <attr name="stopLoopOnTouch" format="boolean" />
+        <!-- 是否使用RadioGroup作为 indicater -->
+        <attr name="useIndicater" format="boolean" />
+        <!--轮播的时间间隔，单位毫秒，默认为 3秒-->
+        <attr name="loopInterval" format="integer" />
+        <!--使用的动画效果-->
+        <attr name="animationTranslater" format="integer">
+            <flag name="ZOOM_OUT_PAGE" value="1" />
+            <flag name="DEPTH_PAGE" value="2" />
+        </attr>
+
+        <!-- 远程请求数据返回的结果集 object ,如果是Map类型而不是array类型,那么认为应该 object[$recordsField]为实际要取的结果集,如果该字段为空,则认为返回的是array -->
+        <attr name="remoteDataRecordsField" format="string" />
+        <!--远程请求的地址-->
+        <attr name="requestUrl" format="string" />
+        <attr name="indicaterReact" format="boolean" />
+
+        <!-- 初始化view的类名 -->
+        <attr name="viewItemInitializer" format="string" />
+
+        <!--每个子view的点击事件-->
+        <attr name="itemClickHandler" format="string" />
+
+    </declare-styleable>
+
+
+</resources>

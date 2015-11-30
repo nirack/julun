@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/pop_window_bg"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.RecyclerView
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingRight="20dp"
+
+        android:id="@+id/addr_list"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <RelativeLayout
+        android:id="@+id/city_select_btn"
+        android:background="@drawable/shadow"
+        android:layout_below="@+id/addr_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+
+            android:drawableLeft="@drawable/ic_location_on_grey_700_18dp"
+            android:text="@string/current_city_prefix"
+            android:textAlignment="center"
+            android:textSize="@dimen/normal_button_text_size"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/switch_city"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_grey_700_18dp"
+            android:textSize="@dimen/normal_button_text_size"
+            android:text="@string/text_switch"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

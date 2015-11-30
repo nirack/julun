@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">聚轮-测试</string>
+    <string name="welcome_txt_content">欢\n迎</string>
+
+    <string name="txt_home_page">首页</string>
+    <string name="txt_machine_parts">配件</string>
+    <string name="txt_shopping_cart">购物车</string>
+    <string name="txt_mine_stuff">我的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="query_goods_btn_hint">查询零部件</string>
+    <string name="city_selector_hint">城市行政区/拼音</string>
+    <string name="str_plz_select">请选择</string>
+    <string name="current_city_prefix">当前城市：杭州</string>
+    <string name="text_switch">切换</string>
+
+
+    <!-- 二维码 -->
+    <string name="scan_tip">请将二维码置于取景框内扫描</string>
+    <string name="scan_retry">二维码扫描出错啦,请重新扫描</string>
+    <string name="scan_title">扫一扫</string>
+
+</resources>

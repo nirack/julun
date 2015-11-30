@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:paddingLeft="5dp"
+    android:layout_margin="3dp"
+    android:layout_height="72dp">
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addr_name"
+    android:textSize="20sp"
+    android:textAlignment="center"
+    android:background="@drawable/rectangle_with_corner"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+    </FrameLayout>

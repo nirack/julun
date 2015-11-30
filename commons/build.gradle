@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+def pinyin4jVersion = '2.5.0';
+def volleyVersion = '1.0.19';
+def gsonVersion = '2.4';
+def enventBusVewsion = '3.0.0-beta1'//如果使用3.0，则是要通过注解的方式来回调事件的处理函数.
+//enventBusVewsion = '2.4.1'  //如果使用 2.4.1，需要按照约定大于配置,  Subscriber里必须要至少有一个指定名称的方法
+def greenJavaCommonVersion = '2.0.0'
+def butterKnifeVersion = '7.0.1'
+def androidSupportPkgVersion = '23.1.1'
+def zxingVersion = '3.2.1'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:$androidSupportPkgVersion"
+    compile "com.android.support:recyclerview-v7:$androidSupportPkgVersion"
+    compile "com.android.support:design:$androidSupportPkgVersion"
+    compile "com.jakewharton:butterknife:$butterKnifeVersion"
+    //这里要用双引号,Groovy的语法
+    compile "com.mcxiaoke.volley:library:$volleyVersion"
+    //奇怪的问题。。。拷贝了双份的  pinyin4jxx.jar 的 pom
+//    compile "com.belerweb:pinyin4j:$pinyin4jVersion"
+    compile "com.google.code.gson:gson:$gsonVersion"
+    compile "de.greenrobot:eventbus:$enventBusVewsion"
+    compile "de.greenrobot:java-common:$greenJavaCommonVersion"
+    compile "com.google.zxing:core:$zxingVersion"
+}

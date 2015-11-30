@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.julun.vehicle.fragments.HomePageFragment">
+
+    <LinearLayout
+        android:id="@+id/home_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/green_a700"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/location_city_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableRight="@drawable/ic_keyboard_arrow_down_white_18dp"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_search_white_24dp"
+            android:gravity="center"
+            android:hint="@string/query_goods_btn_hint"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/scan_qr_code_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_photo_camera_white_24dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin" />
+
+        <TextView
+            android:id="@+id/show_my_msg_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_message_white_24dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin" />
+
+    </LinearLayout>
+    <!--
+
+        <include layout="@layout/home_page_adv" android:id="@+id/sss" android:layout_below="@+id/home_tool_bar"
+            android:layout_height="200dp"
+            android:layout_width="match_parent" />
+    -->
+    <com.julun.widgets.viewpager.LoopViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/home_tool_bar"
+        app:animationTranslater="ZOOM_OUT_PAGE"
+        app:itemClickHandler="com.julun.vehicle.viewpagers.TestListener"
+        app:loopInterval="15000"
+        app:remoteDataRecordsField="records"
+        app:requestUrl="index/queryAdvs"
+        app:stopLoopOnTouch="true"
+        app:indicaterReact="true"
+        app:viewItemInitializer="com.julun.vehicle.viewpagers.HomeAdvInitializer"></com.julun.widgets.viewpager.LoopViewPager>
+<!--
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+-->
+
+    <TextView
+        android:id="@+id/event_info_msg"
+        android:hint="等待消息"
+        android:layout_below="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
