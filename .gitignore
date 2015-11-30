@@ -1,3 +1,11 @@
+/.idea/.name
+/.idea/compiler.xml
+/.idea/gradle.xml
+/.idea/runConfigurations.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/encodings.xml
 *.iml
 .gradle
 /local.properties
