@@ -180,7 +180,6 @@ public class CaptureResultActivity extends AppCompatActivity {
                 fileoutputStream.flush();
                 fileoutputStream.close();
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
