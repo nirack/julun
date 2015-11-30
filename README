@@ -42,5 +42,5 @@ presenter  主导器 上下联通 数据（通过business类） 和 视图（vie
 ListView  和 RecyclerView的的使用例子，参考  com\julun\vehicle\activities 目录下的两个 Activity 
 启动方式在首页点击menu
 
-土鳖康铁牛
+土鳖康铁牛 ......
 
