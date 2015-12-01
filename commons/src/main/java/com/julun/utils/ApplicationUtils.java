@@ -109,7 +109,7 @@ public class ApplicationUtils {
      * @param shuortcutName
      * @param launcherResId
      */
-    public static void createShorts(String shuortcutName, int launcherResId) {
+    public static void createShorts(String shuortcutName, int launcherResId, Class cls) {
         //创建快捷方式的Intent
         Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
         //不允许重复创建
@@ -119,7 +119,7 @@ public class ApplicationUtils {
         //快捷图片
         Parcelable icon = Intent.ShortcutIconResource.fromContext(application.get(), launcherResId);
         shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
-        Intent intent = new Intent(application.get(), application.get().getClass());
+        Intent intent = new Intent(application.get(), cls);
         //下面两个属性是为了当应用程序卸载时桌面 上的快捷方式会删除
         intent.setAction("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.LAUNCHER");
@@ -196,10 +196,10 @@ public class ApplicationUtils {
      * @param appName
      * @param ic_launcher
      */
-    public static void reCreateShortCut(String appName, int ic_launcher) {
+    public static void reCreateShortCut(String appName, int ic_launcher, Class cls) {
         if(isNewVersion()){
             ApplicationUtils.deleteShortCut(appName);
-            createShorts(appName, ic_launcher);
+            createShorts(appName, ic_launcher, cls);
             SettintUtil.saveVersionNumber(getAppVersionName(application.get()));
         }
 

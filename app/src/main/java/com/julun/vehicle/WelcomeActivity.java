@@ -14,7 +14,7 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ApplicationUtils.reCreateShortCut(getString(R.string.app_name), R.mipmap.ic_launcher);
+        ApplicationUtils.reCreateShortCut(getString(R.string.app_name), R.mipmap.ic_launcher, WelcomeActivity.class);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
