@@ -1,10 +1,8 @@
 package com.julun.vehicle.callbacks;
 
-import android.content.Intent;
 import android.hardware.Camera;
 
 import com.julun.utils.ApplicationUtils;
-import com.julun.vehicle.activities.scan.QRCodeActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;

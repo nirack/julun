@@ -13,11 +13,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.julun.commons.R;
+import com.julun.utils.sp.SettintUtil;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -45,8 +45,8 @@ public class ApplicationUtils {
 
     public static final String BASE_URL_PREFIX = "http://" + ipAddress + ":" + portNumber + "/" + webAppName + "/";
 
-
     private static WeakReference<Application> application;
+
     private static boolean hasCamera = true;
 
     private ApplicationUtils() {
@@ -169,7 +169,7 @@ public class ApplicationUtils {
     public static boolean isNewVersion() {
         Float oldversion = null;
         try {
-            String versionNumber = ShardPreferencesUtils.get(application.get(), "versionNumber", "-1").toString();
+            String versionNumber = SettintUtil.getVersionNumber();
             oldversion = Float.parseFloat(versionNumber);
         } catch (Exception e) {
             return true;
@@ -199,8 +199,8 @@ public class ApplicationUtils {
     public static void reCreateShortCut(String appName, int ic_launcher) {
         if(isNewVersion()){
             ApplicationUtils.deleteShortCut(appName);
-            ApplicationUtils.createShorts(appName, ic_launcher);
-            ShardPreferencesUtils.put(application.get(),"versionNumber",getAppVersionName(application.get()));
+            createShorts(appName, ic_launcher);
+            SettintUtil.saveVersionNumber(getAppVersionName(application.get()));
         }
 
     }
