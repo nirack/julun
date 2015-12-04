@@ -14,7 +14,7 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'F:/MavenRepository' }
+       // maven { url 'F:/MavenRepository' }
         //首先要在  USER_HOME/.m2 目录下 放置 settings.xml,配置好之后,会使用 settings.xml里配置的  repository.不需要想上面那样直接制定repository的绝对路径了
 //        mavenLocal();
         mavenCentral();
