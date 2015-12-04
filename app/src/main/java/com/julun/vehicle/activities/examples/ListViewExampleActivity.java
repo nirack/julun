@@ -58,7 +58,7 @@ public class ListViewExampleActivity extends BaseActivity {
     int btn1change = 0;
     int btn2change = 0;
 
-    @OnClick({R.id.btn1, R.id.btn2})
+//    @OnClick({R.id.btn1, R.id.btn2})
     public void start(View view) {
         switch (view.getId()) {
             case R.id.btn1:
