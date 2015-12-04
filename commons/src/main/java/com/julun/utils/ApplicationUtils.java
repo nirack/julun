@@ -47,6 +47,7 @@ public class ApplicationUtils {
 
 
     private static WeakReference<Application> application;
+
     private static boolean hasCamera = true;
 
     private ApplicationUtils() {
