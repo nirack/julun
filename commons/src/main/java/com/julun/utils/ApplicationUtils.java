@@ -13,11 +13,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.julun.commons.R;
+import com.julun.utils.sp.SettintUtil;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -44,7 +44,6 @@ public class ApplicationUtils {
 //    private static final String portNumber = "80";
 
     public static final String BASE_URL_PREFIX = "http://" + ipAddress + ":" + portNumber + "/" + webAppName + "/";
-
 
     private static WeakReference<Application> application;
 
@@ -110,7 +109,7 @@ public class ApplicationUtils {
      * @param shuortcutName
      * @param launcherResId
      */
-    public static void createShorts(String shuortcutName, int launcherResId) {
+    public static void createShorts(String shuortcutName, int launcherResId, Class cls) {
         //创建快捷方式的Intent
         Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
         //不允许重复创建
@@ -120,7 +119,7 @@ public class ApplicationUtils {
         //快捷图片
         Parcelable icon = Intent.ShortcutIconResource.fromContext(application.get(), launcherResId);
         shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
-        Intent intent = new Intent(application.get(), application.get().getClass());
+        Intent intent = new Intent(application.get(), cls);
         //下面两个属性是为了当应用程序卸载时桌面 上的快捷方式会删除
         intent.setAction("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.LAUNCHER");
@@ -170,7 +169,7 @@ public class ApplicationUtils {
     public static boolean isNewVersion() {
         Float oldversion = null;
         try {
-            String versionNumber = ShardPreferencesUtils.get(application.get(), "versionNumber", "-1").toString();
+            String versionNumber = SettintUtil.getVersionNumber();
             oldversion = Float.parseFloat(versionNumber);
         } catch (Exception e) {
             return true;
@@ -197,11 +196,11 @@ public class ApplicationUtils {
      * @param appName
      * @param ic_launcher
      */
-    public static void reCreateShortCut(String appName, int ic_launcher) {
+    public static void reCreateShortCut(String appName, int ic_launcher, Class cls) {
         if(isNewVersion()){
             ApplicationUtils.deleteShortCut(appName);
-            ApplicationUtils.createShorts(appName, ic_launcher);
-            ShardPreferencesUtils.put(application.get(),"versionNumber",getAppVersionName(application.get()));
+            createShorts(appName, ic_launcher, cls);
+            SettintUtil.saveVersionNumber(getAppVersionName(application.get()));
         }
 
     }
