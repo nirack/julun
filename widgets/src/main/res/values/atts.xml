@@ -2,11 +2,9 @@
 <resources>
 
 
-    <declare-styleable name="LoopViewPager">
+    <declare-styleable name="SimpleLoopViewPager">
         <!-- 点击的时候是否停止轮播,默认为true -->
         <attr name="stopLoopOnTouch" format="boolean" />
-        <!-- 是否使用RadioGroup作为 indicater -->
-        <attr name="useIndicater" format="boolean" />
         <!--轮播的时间间隔，单位毫秒，默认为 3秒-->
         <attr name="loopInterval" format="integer" />
         <!--使用的动画效果-->
@@ -28,6 +26,5 @@
         <attr name="itemClickHandler" format="string" />
 
     </declare-styleable>
-
 
 </resources>

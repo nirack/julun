@@ -15,4 +15,11 @@
         android:title="ListView例子"
         app:showAsAction="never" />
 
+
+    <item
+        android:id="@+id/show_pop_win"
+        android:orderInCategory="100"
+        android:title="弹出窗口"
+        app:showAsAction="never" />
+
 </menu>

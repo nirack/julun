@@ -75,11 +75,16 @@ public class BaseFragment extends Fragment implements UIContainerEvnProvider {
     /**
      * 跳转到activity
      *
-     * @param klass
+     * @param next
+     * @param extra 实际只取第一个
      */
-    public void jump2Activity(Class<? extends Activity> klass) {
+    public void jump2Activity(Class<? extends Activity> next, Bundle ... extra){
         Activity activity = this.getActivity();
-        activity.startActivity(new Intent(activity, klass));
+        Intent intent = new Intent(activity, next);
+        if(extra!=null && extra.length > 0){
+            intent.putExtras(extra[0]);
+        }
+        activity.startActivity(intent);
     }
 
     /**

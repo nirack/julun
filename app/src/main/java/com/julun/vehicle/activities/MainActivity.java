@@ -14,6 +14,7 @@ import com.julun.container.uicontroller.BaseActivity;
 import com.julun.container.uicontroller.BaseFragment;
 import com.julun.vehicle.R;
 import com.julun.vehicle.activities.examples.ListViewExampleActivity;
+import com.julun.vehicle.activities.examples.PopWinTestActivity;
 import com.julun.vehicle.activities.examples.RecyclerViewExampleActivity;
 import com.julun.vehicle.fragments.CargoFragment;
 import com.julun.vehicle.fragments.HomePageFragment;
@@ -123,6 +124,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.show_rec_view:
                 jumpActivity(RecyclerViewExampleActivity.class);
+                break;
+            case R.id.show_pop_win:
+                jumpActivity(PopWinTestActivity.class);
                 break;
         }
         return true;

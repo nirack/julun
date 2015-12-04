@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -33,8 +34,11 @@ import com.julun.utils.CollectionHelper;
 import com.julun.utils.ToastHelper;
 import com.julun.vehicle.R;
 import com.julun.vehicle.activities.scan.QRCodeActivity;
+import com.julun.vehicle.activities.search.SearchProdActivity;
 import com.julun.widgets.adapters.StaggedGridLayoutAdapter;
+import com.julun.widgets.popwin.BasicEasyPopupWindow;
 import com.julun.widgets.utils.PopWinHelper;
+import com.julun.widgets.viewpager.SimpleLoopViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +63,13 @@ public class HomePageFragment extends BaseFragment {
     @Bind(R.id.location_city_btn)
     TextView cityBtn;
     @Bind(R.id.search_btn)
-    TextView searchBtn;
+    EditText searchBtn;
     @Bind(R.id.scan_qr_code_btn)
     TextView scanQrCodeBtn;
     @Bind(R.id.show_my_msg_btn)
     TextView showMsgBtn;
+    @Bind(R.id.view_pager)
+    SimpleLoopViewPager viewPager;
 
     @BusinessBean
     private IndexService indexService;
@@ -119,13 +125,29 @@ public class HomePageFragment extends BaseFragment {
                 break;
             case R.id.search_btn:
                 //                jump2Activity();
+                jump2Activity(SearchProdActivity.class);
                 break;
             case R.id.scan_qr_code_btn:
+                jump2Activity(QRCodeActivity.class);
                 break;
             case R.id.show_my_msg_btn:
                 break;
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(HomePageFragment.class.getName(), "onResume() called with: " + "");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // TODO: 2015-12-01 需要在暂停的时候,让viewpager不再继续循环播放
+        viewPager.stopLoop();
+    }
+
 
     public void changeCity(final View view) {
         final LinearLayout contentView = (LinearLayout) layoutInflater.inflate(R.layout.city_select_pop_win, null);
@@ -160,7 +182,7 @@ public class HomePageFragment extends BaseFragment {
 
     private void showPopupWindow(final View selectedCityView) {
         final RelativeLayout contentView = (RelativeLayout) layoutInflater.inflate(R.layout.addr_float, null);
-        final PopupWindow popupWindow = PopWinHelper.getPopWin(contentView);
+        final BasicEasyPopupWindow popupWindow = PopWinHelper.getPopWin(this.getContextActivity(),contentView);
 
         RecyclerView list = (RecyclerView) contentView.findViewById(R.id.addr_list);
         List<String> dataList = new ArrayList<>();
@@ -238,11 +260,5 @@ public class HomePageFragment extends BaseFragment {
             adapter.insertData(0, c.getCountyName());
             adapter.notifyItemChanged(0);
         }
-    }
-
-    @OnClick(R.id.scan_qr_code_btn)
-    public void startScan(View view) {
-        jump2Activity(QRCodeActivity.class);
-//        jump2Activity(CameraActivity.class);
     }
 }

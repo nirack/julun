@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -76,6 +77,7 @@ public class QRCodeActivity extends BaseActivity {
 
     @AfterInitView
     public void afterInitViews() {
+        Log.d(QRCodeActivity.class.getName(), "afterInitViews() called with: " + "");
         CameraManager.init(getApplication());
 
         title.setText(R.string.scan_title);
@@ -90,6 +92,7 @@ public class QRCodeActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
+        Log.d(QRCodeActivity.class.getName(), "onPause() called with: " + "");
         super.onPause();
         if (captureActivityHandler != null) {
             captureActivityHandler.quitSynchronously();
@@ -100,8 +103,9 @@ public class QRCodeActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         inactivityTimer.shutdown();
+        super.onDestroy();
+        Log.d(QRCodeActivity.class.getName(), "onDestroy() called with: " + " ， captureActivityHandler != null ？  " + ( captureActivityHandler != null ) + "" );
     }
 
     @Override

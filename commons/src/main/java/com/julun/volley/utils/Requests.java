@@ -2,30 +2,21 @@ package com.julun.volley.utils;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.ImageView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.StringRequest;
 import com.julun.commons.R;
 import com.julun.commons.images.BitMapCache;
 import com.julun.commons.images.ImageUtils;
 import com.julun.utils.ApplicationUtils;
-import com.julun.utils.JsonHelper;
 import com.julun.utils.ToastHelper;
 import com.julun.volley.GenericTypedRequest;
 import com.julun.volley.VolleyRequestCallback;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -113,66 +104,6 @@ public class Requests {
         niv.setDefaultImageResId(defaultResId);
         niv.setErrorImageResId(errorImageResId);
         niv.setImageUrl(url, loader);
-    }
-
-    public static List<String> getRandomImageUrl(String keyword, final int skip, final int size) {
-        if (null == keyword) {
-            keyword = "" + Math.random();
-        }
-        String url = BAIDU_IMG_SEARCH_PREFIX + keyword;
-
-        String page = "1";
-        url = "http://photo.bitauto.com/serialmore/2045/2015/11/" + page + "/";//易车网保时捷911 官方图
-        url = "http://car.autohome.com.cn/pic/series/703-1-p2.html";//汽车之家保时捷图片
-//        url = "http://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fr=&sf=1&fmq=&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word=汽车高清壁纸&oq=汽车高清壁纸&rsp=-1#z=0&pn=&ic=0&st=-1&face=0&s=0&lm=-1";
-        Log.i("获取图片的地址： ", url);
-
-        Response.Listener<String> listener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                List<String> imgSrcList = getImgSrcList(response, skip, size);
-                Log.i("获取图片", JsonHelper.toJson(imgSrcList));
-            }
-        };
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("请求出错", error.toString());
-            }
-        };
-        ApplicationUtils.getGlobeRequestQueue().cancelAll(url);
-        StringRequest request = new StringRequest(Request.Method.POST, url, listener, errorListener);
-        request.setTag(url);
-        ApplicationUtils.getGlobeRequestQueue().add(request);
-        ApplicationUtils.getGlobeRequestQueue().start();
-        return null;
-    }
-
-    /**
-     * 得到网页中图片的地址
-     *
-     * @param htmlStr 请求获得的HTML页面.
-     * @param size    数目
-     * @return
-     */
-    public static List<String> getImgSrcList(String htmlStr, int skip, int size) {
-        List<String> pics = new ArrayList<String>();
-
-        String regEx_img = "<img.*?src=\"http://(.*?).jpg\""; // 图片链接地址
-        Pattern p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
-        Matcher m_image = p_image.matcher(htmlStr);
-        while (m_image.find() && pics.size() < size) {
-            if (skip != 0) {
-                skip--;
-                Log.i("查看skip", "getImgSrcList() called with: " + " skip = [" + skip + "], size = [" + size + "]");
-                continue;
-            }
-            String src = m_image.group(1);
-            if (src.length() < 100) {
-                pics.add("http://" + src + ".jpg");
-            }
-        }
-        return pics;
     }
 
 }

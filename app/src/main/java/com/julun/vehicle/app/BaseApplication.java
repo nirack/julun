@@ -15,13 +15,11 @@ public class BaseApplication extends Application {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        // TODO Auto-generated method stub
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
         super.onCreate();
         Log.i(BaseApplication.class.getName(), "应用启动！！！！！！！！！！！！！");
         ApplicationUtils.init(this);
@@ -30,13 +28,12 @@ public class BaseApplication extends Application {
 
     @Override
     public void onLowMemory() {
-        // TODO Auto-generated method stub
         super.onLowMemory();
     }
 
     @Override
     public void onTerminate() {
-        // TODO Auto-generated method stub
+        Log.d(BaseApplication.class.getName(), "onTerminate() called with: " + "");
         super.onTerminate();
     }
 

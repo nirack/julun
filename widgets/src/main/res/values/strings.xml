@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">widgets</string>
+    <string name="loading_text">加载中...</string>
 </resources>

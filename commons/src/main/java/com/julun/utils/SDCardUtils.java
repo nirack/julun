@@ -21,9 +21,7 @@ public class SDCardUtils {
      * @return
      */
     public static boolean isSDCardEnable() {
-        return Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED);
-
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
     /**
@@ -32,8 +30,7 @@ public class SDCardUtils {
      * @return
      */
     public static String getSDCardPath() {
-        return Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator;
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
     }
 
     /**

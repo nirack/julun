@@ -14,6 +14,9 @@ import com.julun.container.BaseContainerInitializer;
 import com.julun.container.UIContainerEvnProvider;
 import com.julun.event.events.BaseSimpleEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
@@ -40,8 +43,17 @@ public class BaseActivity extends AppCompatActivity implements UIContainerEvnPro
         BaseContainerInitializer.initActivity(this, savedInstanceState);
     }
 
-    public void jumpActivity(Class<? extends FragmentActivity> next){
-        startActivity(new Intent(this, next));
+    /**
+     *
+     * @param next
+     * @param extra 实际只取第一个
+     */
+    public void jumpActivity(Class<? extends FragmentActivity> next, Bundle ... extra){
+        Intent intent = new Intent(this, next);
+        if(extra!=null && extra.length > 0){
+            intent.putExtras(extra[0]);
+        }
+        startActivity(intent);
     }
 
     @Override
