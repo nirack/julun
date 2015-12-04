@@ -12,7 +12,7 @@
     <item
         android:id="@+id/show_rec_view"
         android:orderInCategory="100"
-        android:title="ListView例子"
+        android:title="RecyclerView例子"
         app:showAsAction="never" />
 
 
