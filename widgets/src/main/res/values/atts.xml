@@ -27,4 +27,16 @@
 
     </declare-styleable>
 
+    <!-- 下拉，上拉刷新 -->
+    <declare-styleable name="SimpleRefreshView">
+        <!--需要刷新的手势方向-->
+        <attr name="refreshDirection" format="integer">
+            <flag name="GO_UP" value="1" />
+            <flag name="GO_LEFT" value="2" />
+            <flag name="GO_DOWN" value="2" />
+            <flag name="GO_RIGHT" value="2" />
+        </attr>
+
+    </declare-styleable>
+
 </resources>

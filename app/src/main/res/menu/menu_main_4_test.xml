@@ -22,4 +22,17 @@
         android:title="弹出窗口"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/refresh_test"
+        android:orderInCategory="100"
+        android:title="刷新"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/refresh_test2"
+        android:orderInCategory="100"
+        android:title="刷新22"
+        app:showAsAction="never" />
+
+
 </menu>

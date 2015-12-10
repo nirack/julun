@@ -3,6 +3,7 @@ package com.julun.vehicle.fragments;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
@@ -71,8 +72,11 @@ public class HomePageFragment extends BaseFragment {
     @Bind(R.id.view_pager)
     SimpleLoopViewPager viewPager;
 
+    private boolean locationInited = false;
+
     @BusinessBean
     private IndexService indexService;
+    private BDLocationListener bdLocationListener;
 
     public HomePageFragment() {
     }
@@ -80,8 +84,12 @@ public class HomePageFragment extends BaseFragment {
     @AfterInitView
     public void afterInitViews() {
         cityBtn.setClickable(true);
-        cityBtn.setText("请选择");
-        initLocation();
+        if(!locationInited){
+            Log.d(LOG_TAG_CLASS_NAME + " 现在地址 ", "afterInitViews() called with: " + "");
+            cityBtn.setText("请选择");
+            initLocation();
+            locationInited = true;
+        }
     }
 
     /**
@@ -99,7 +107,7 @@ public class HomePageFragment extends BaseFragment {
 
         locationClient.setLocOption(locationClientOption);
 
-        locationClient.registerLocationListener(new BDLocationListener() {
+        bdLocationListener = new BDLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 Log.i(LOG_TAG_CLASS_NAME, "定位完成,现在地址： " + bdLocation.getAddrStr());
@@ -108,11 +116,20 @@ public class HomePageFragment extends BaseFragment {
                 String country = address.country;//中国
                 String city = bdLocation.getCity();
                 // TODO: 可以成功获取地址，配置没问题了
+                try {
+                    Context contextActivity = getContextActivity();
+                    ToastHelper.showLong(contextActivity, "空指针 ？？？  " + (cityBtn == null) + "  city: " + city);
+                } catch (Exception e) {
+                    Log.e("错误错误",e.getMessage());
+                    e.printStackTrace();
+                }
                 cityBtn.setText(city);
 //                ToastHelper.showLong(context, "county := " + country + " , city := " + city + " , cityCode := " + cityCode + "\n address: " + address.toString());
                 locationClient.stop();
             }
-        });
+        };
+
+        locationClient.registerLocationListener(bdLocationListener);
         locationClient.start();
         Log.i(LOG_TAG_CLASS_NAME, "已经开始定位： ");
     }
@@ -145,7 +162,13 @@ public class HomePageFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         // TODO: 2015-12-01 需要在暂停的时候,让viewpager不再继续循环播放
+        ToastHelper.showLong(getContextActivity(), "暂停，即将前往另外一个 Activity");
         viewPager.stopLoop();
+        if(locationClient.isStarted()){
+            locationClient.unRegisterLocationListener(bdLocationListener);
+            locationClient.stop();
+        }
+
     }
 
 

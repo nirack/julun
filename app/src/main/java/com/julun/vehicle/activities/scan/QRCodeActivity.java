@@ -192,7 +192,9 @@ public class QRCodeActivity extends BaseActivity {
             resultIntent.putExtras(bundle);
             //this.setResult(RESULT_OK, resultIntent);
 
-            startActivity(resultIntent);
+            jumpActivity(CaptureResultActivity.class,bundle);;
+
+//            startActivity(resultIntent);
         }
         QRCodeActivity.this.finish();
     }

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">widgets</string>
+    <string name="load_more_tip">往上拉拉看...</string>
+    <string name="prepare_loading_text">放手吧,看看有啥新东西...</string>
     <string name="loading_text">加载中...</string>
+    <string name="nothing_more">木有了...</string>
+
 </resources>
