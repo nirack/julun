@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference;
  */
 public class BasicEasyPopupWindow extends PopupWindow {
 
-    private WeakReference<Context> cxt;
+    protected WeakReference<Context> cxt;
 
     public BasicEasyPopupWindow(@NonNull Context context,@NonNull View contentView) {
         super(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
