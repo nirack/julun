@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/captcha_zone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/captcha"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="请输入验证码"
+        style="@style/EditText"/>
+    <FrameLayout
+        android:layout_width="80dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        >
+
+        <ProgressBar
+            android:id="@+id/captcha_progress_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            style="?android:progressBarStyleSmall"/>
+        <ImageView
+            android:id="@+id/captcha_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:scaleType="fitXY"/>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/change_captcha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorLink"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:text="换一张"/>
+
+</LinearLayout>
