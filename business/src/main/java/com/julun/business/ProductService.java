@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.julun.datas.PageResult;
 import com.julun.datas.beans.Product;
 import com.julun.event.events.DataChangeEvent;
+import com.julun.event.events.FailureEvent;
 import com.julun.utils.ApplicationUtils;
 import com.julun.volley.VolleyRequestCallback;
 import com.julun.volley.utils.Requests;
@@ -41,9 +42,7 @@ public class ProductService extends BusiBaseService {
 
             @Override
             public void doOnFailure(VolleyError error) {
-//                ToastHelper.showLong(context.getEventBus(), error.toString());
-                DataChangeEvent<PageResult<Product>> event = new DataChangeEvent<PageResult<Product>>();
-                event.setSuccess(false);
+                FailureEvent event = new FailureEvent(error.toString());
                 dataLoadedAndTellUiThread(event);
             }
         };

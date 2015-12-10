@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -12,6 +13,7 @@ import com.julun.commons.images.BitMapCache;
 import com.julun.commons.images.ImageUtils;
 import com.julun.utils.ApplicationUtils;
 import com.julun.utils.ToastHelper;
+import com.julun.volley.ByteArrayRequest;
 import com.julun.volley.GenericTypedRequest;
 import com.julun.volley.VolleyRequestCallback;
 
@@ -50,6 +52,21 @@ public class Requests {
             }
         }
         GenericTypedRequest request = new GenericTypedRequest(url, callback, map);
+        request.setTag(requestTag);
+        ApplicationUtils.getGlobeRequestQueue().add(request);
+        ApplicationUtils.getGlobeRequestQueue().start();
+    }
+
+    public static void postByte(@NonNull String url, String requestTag, @NonNull VolleyRequestCallback callback, Map<String, String>... params) {
+        requestTag = requestTag == null ? url : requestTag;
+        ApplicationUtils.getGlobeRequestQueue().cancelAll(requestTag);
+        Map<String, String> map = new HashMap<>();
+        if (params != null) {
+            for (Map<String, String> each : params) {
+                map.putAll(each);
+            }
+        }
+        ByteArrayRequest request = new ByteArrayRequest(url, callback, map);
         request.setTag(requestTag);
         ApplicationUtils.getGlobeRequestQueue().add(request);
         ApplicationUtils.getGlobeRequestQueue().start();

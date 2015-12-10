@@ -25,12 +25,12 @@ import java.util.Map;
  * @see  VolleyRequestCallback
  *
  */
-public class GenericTypedRequest<T> extends Request<String> {
+public class GenericTypedRequest extends Request<String> {
     protected static final String PROTOCOL_CHARSET = "utf-8";
     private Map<String, String> param;
     private Response.Listener<String> successListener;
 
-    public GenericTypedRequest(String url, VolleyRequestCallback<T> callback, Map<String, String> map) {
+    public GenericTypedRequest(String url, VolleyRequestCallback<String> callback, Map<String, String> map) {
         super(Request.Method.POST, url, callback.getErrorListener());
         successListener = callback.getSuccessListener();
         param = map;

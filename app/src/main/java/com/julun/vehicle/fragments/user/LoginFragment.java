@@ -1,5 +1,6 @@
 package com.julun.vehicle.fragments.user;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -7,14 +8,21 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -34,6 +42,7 @@ import com.julun.event.events.DataChangeEvent;
 import com.julun.utils.StringHelper;
 import com.julun.vehicle.R;
 import com.julun.vehicle.activities.MainActivity;
+import com.julun.vehicle.dialogs.ProgressDialogFragment;
 import com.julun.widgets.adapters.listview.BaseListViewAdapter;
 import com.julun.widgets.viewholder.listview.ViewHolder;
 
@@ -41,6 +50,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import butterknife.OnTouch;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
 
@@ -83,6 +93,9 @@ public class LoginFragment extends UserBackFragment {
     LoginService loginService;
 
     private BaseListViewAdapter<String> adapter;
+    private ProgressDialogFragment progressDialogFragment;
+
+    private static final String FRAGMENT_PROGRESS_DIALOG = "progress_dialog";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -171,6 +184,20 @@ public class LoginFragment extends UserBackFragment {
         userName.setAdapter(adapter);
         userNameImg.setVisibility(View.INVISIBLE);
         passwordImg.setVisibility(View.INVISIBLE);
+        captchaZone.setVisibility(View.GONE);  //默认不出来验证码
+
+        userNameImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userName.setText("");
+            }
+        });
+        passwordImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                password.setText("");
+            }
+        });
     }
 
     @Override
@@ -192,15 +219,11 @@ public class LoginFragment extends UserBackFragment {
 
     @OnTextChanged(value = R.id.username, callback = OnTextChanged.Callback.TEXT_CHANGED)
     public void userNameTextChanged() {
-        Log.d(TAG, "删除用户名图标是否显示判断");
         if (userName.getText().length() > 0 && userNameImg.getVisibility() == View.INVISIBLE) {
-            Log.d(TAG, "显示删除用户名图标");
             userNameImg.setVisibility(View.VISIBLE);
         } else if (userName.getText().length() == 0 && userNameImg.getVisibility() == View.VISIBLE) {
-            Log.d(TAG, "隐藏删除用户名图标");
             userNameImg.setVisibility(View.INVISIBLE);
         }
-
     }
 
     @OnTextChanged(value = R.id.password, callback = OnTextChanged.Callback.TEXT_CHANGED)
@@ -214,6 +237,7 @@ public class LoginFragment extends UserBackFragment {
 
     @OnClick({R.id.login, R.id.retrieve_password, R.id.dynamic_login, R.id.change_captcha})
     public void viewClick(View view) {
+        Log.d(TAG,"View id : "+view.getId());
         switch (view.getId()) {
             case R.id.login:
                 login();
@@ -260,48 +284,91 @@ public class LoginFragment extends UserBackFragment {
     /**
      * 后台登陆
      */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void login() {
-        loginService.login(userName.getText().toString(), password.getText().toString(), captcha.getText().toString());
+        Log.d(TAG, "login....show progress");
+        progressDialogFragment = ProgressDialogFragment.newInstance(0);
+        progressDialogFragment.show(getChildFragmentManager(), FRAGMENT_PROGRESS_DIALOG);
+        Log.d(TAG, "调用后台登陆");
+        loginService.login(userName.getText().toString().trim(), password.getText().toString().trim(), captcha.getText().toString().trim());
     }
 
     /**
      * 更换验证码
      */
     public void changeCaptcha() {
-        loginService.changeCaptcha();
+//        loginService.changeCaptcha();
+        captchaImg.setVisibility(View.GONE);
+        captchaProgressLoading.setVisibility(View.VISIBLE);
+        // TODO: 2015/12/10  模拟后台生成验证码数据延时
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                captchaProgressLoading.setVisibility(View.GONE);
+                captchaImg.setVisibility(View.VISIBLE);
+                captchaImg.setImageBitmap(Code.getInstance().createBitmap());
+            }
+        }, 1000);
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)
-    public void onEventMainThread(DataChangeEvent<String> event) {
-        boolean success = event.isSuccess();
-        if (success) {
-            String msg = event.getData();
-            if (StringHelper.isNotEmpty(msg)) {
-                new AlertDialog.Builder(getActivity()).setTitle("提示")
-                        .setMessage(msg)
-                        .setPositiveButton("取消", null)
-                        .setNegativeButton("手机号快捷登录", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //跳转到手机快捷登陆
-                            }
-                        }).create();
-            }else{
-                int code = event.getCode();
-                if(code == 0) {
-                    jumpToMainActivity();
-                }else if(code == 1) {
-//                    captchaImg.setImageDrawable(Drawable.);
-                }
+    public void onEventMainThread(DataChangeEvent event) {
+        Log.d(TAG, "UI MAIN THREAD");
+        if (event.isSuccess()) {
+            Object data = event.getData();
+            Log.d(TAG, "success"+ (data instanceof  String));
+            if(data instanceof String){
+                loginSuccess(String.valueOf(data));
+            } else if(data instanceof  byte[]){
+                setCaptchaImg((byte[])data);
             }
-        } else {
-            //请求失败，网络异常等情况
-            String errorInfo = event.getExtraMessage();
-            Log.d(TAG, errorInfo);
+        }
+    }
+
+    /**
+     * 登陆成功
+     * @param data
+     */
+    private void loginSuccess(String data) {
+        Log.d(TAG, "loginSuccess: " + data);
+        if (StringHelper.isNotEmpty(data)) {
             new AlertDialog.Builder(getActivity()).setTitle("提示")
-                    .setMessage("数据获取失败, 请稍后重试")
-                    .setPositiveButton("知道了", null)
-                    .create();
+                    .setMessage(data)
+                    .setPositiveButton("取消", null)
+                    .setNegativeButton("手机号快捷登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //跳转到手机快捷登陆
+                        }
+                    }).create();
+        }
+        //登陆成功，存储用户信息
+        Log.d(TAG, "隐藏progress dialog");
+        progressDialogFragment.dismiss();
+
+        // TODO: 2015/12/10 根据后台数据data判断用户登陆有问题，需要选择验证码
+        captchaZone.setVisibility(View.VISIBLE);
+        captchaImg.setVisibility(View.VISIBLE);
+        captchaProgressLoading.setVisibility(View.GONE);
+        captchaImg.setImageBitmap(Code.getInstance().createBitmap());
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        editor.putString("username", userName.getText().toString().trim());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 设置登陆验证码
+     * @param data
+     */
+    private void setCaptchaImg(byte[] data) {
+        if(data != null && data.length > 0) {
+            Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+            captchaImg.setImageBitmap(bm);
         }
     }
 
