@@ -3,9 +3,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/step_tip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="注册界面"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:minHeight="48dp">
+
+        <RadioButton
+            android:id="@+id/step1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/SignupRadionButton"
+            android:text="1输入手机号"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/right_arrow"
+            android:layout_marginLeft="5dp"/>
+        <RadioButton
+            android:id="@+id/step2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/SignupRadionButton"
+            android:text="2输入验证码"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/right_arrow"
+            android:layout_marginLeft="5dp"/>
+        <RadioButton
+            android:id="@+id/step3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/SignupRadionButton"
+            android:text="3设置密码"/>
+
+    </RadioGroup>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 
 </LinearLayout>
