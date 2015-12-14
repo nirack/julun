@@ -106,7 +106,6 @@ public class LoginFragment extends UserBackFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

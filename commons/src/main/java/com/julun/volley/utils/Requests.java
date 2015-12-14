@@ -79,9 +79,8 @@ public class Requests {
      * @param url
      */
     public static void loadImage(@NonNull ImageView view, @NonNull String url) {
-        ImageLoader loader = new ImageLoader(ApplicationUtils.getGlobeRequestQueue(), new BitMapCache());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(view, defaultResId, errorImageResId);
-        loader.get(url, listener);
+        ApplicationUtils.getGlobeImageLoader().get(url, listener);
     }
 
     /**
@@ -92,7 +91,6 @@ public class Requests {
      * @param height
      */
     public static void loadImageAndResize(@NonNull final ImageView view, @NonNull String url, final int width, final int height) {
-        ImageLoader loader = new ImageLoader(ApplicationUtils.getGlobeRequestQueue(), new BitMapCache());
         ImageLoader.ImageListener listener2 = new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -107,7 +105,7 @@ public class Requests {
             }
         };
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(view, defaultResId, errorImageResId);
-        loader.get(url, listener);
+        ApplicationUtils.getGlobeImageLoader().get(url, listener);
     }
 
     /**
@@ -117,7 +115,7 @@ public class Requests {
      * @param url
      */
     public static void loadImage4NetImageView(@NonNull NetworkImageView niv, @NonNull String url) {
-        ImageLoader loader = new ImageLoader(ApplicationUtils.getGlobeRequestQueue(), new BitMapCache());
+        ImageLoader loader = ApplicationUtils.getGlobeImageLoader();
         niv.setDefaultImageResId(defaultResId);
         niv.setErrorImageResId(errorImageResId);
         niv.setImageUrl(url, loader);

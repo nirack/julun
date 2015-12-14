@@ -15,8 +15,10 @@ import android.os.Parcelable;
 import android.telephony.TelephonyManager;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.julun.commons.R;
+import com.julun.commons.images.BitMapCache;
 import com.julun.utils.sp.SettintUtil;
 
 import java.io.File;
@@ -32,6 +34,7 @@ public class ApplicationUtils {
 
     //全局的  volley 请求队列
     public static RequestQueue requestQueue;
+    public static ImageLoader imageLoader;
     private static String deviceId;
 
     private static final String ipAddress = "120.26.67.181";
@@ -212,6 +215,7 @@ public class ApplicationUtils {
         deviceId = tm.getDeviceId();
         //初始化Volley的请求队列.
         requestQueue = Volley.newRequestQueue(app);
+        imageLoader = new ImageLoader(requestQueue, new BitMapCache());
         //是否有相机
         hasCamera = app.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
         APP_BASE_EXTERNAL_STORAGE_PATH = EXTERNAL_STORAGE_PATH + File.separator + application.get().getPackageName() + File.separator;
@@ -222,6 +226,10 @@ public class ApplicationUtils {
         if(!base.exists()){
             base.mkdir();
         }
+    }
+
+    public static ImageLoader getGlobeImageLoader() {
+        return imageLoader;
     }
 
     public static RequestQueue getGlobeRequestQueue() {
