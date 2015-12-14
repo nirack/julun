@@ -41,7 +41,7 @@ public final class SharedPreferencesUtils {
         commit(editor);
     }
 
-    public static void commitLong(String key, int value) {
+    public static void commitLong(String key, long value) {
         SharedPreferences.Editor editor = SharedPreferencesUtils.getEditor().putLong(key, value);
         commit(editor);
     }
