@@ -12,7 +12,7 @@ import com.julun.container.uicontroller.BaseActivity;
 import com.julun.datas.localdata.SearchHistory;
 import com.julun.utils.ToastHelper;
 import com.julun.vehicle.R;
-import com.julun.widgets.viewpager.SimpleLoopViewPager;
+import com.julun.vehicle.viewpagers.SimpleLoopViewPager;
 
 import butterknife.Bind;
 import butterknife.OnClick;

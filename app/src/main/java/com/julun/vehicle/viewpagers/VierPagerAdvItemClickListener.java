@@ -3,7 +3,6 @@ package com.julun.vehicle.viewpagers;
 import android.util.Log;
 
 import com.julun.datas.beans.Adv;
-import com.julun.widgets.viewpager.SimpleLoopViewPager;
 
 
 /**

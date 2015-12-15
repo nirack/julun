@@ -2,10 +2,8 @@ package com.julun.widgets.viewpager;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 
-import com.julun.utils.ToastHelper;
 import com.julun.widgets.R;
 
 import java.lang.ref.WeakReference;

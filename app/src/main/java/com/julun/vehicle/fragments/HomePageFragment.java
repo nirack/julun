@@ -38,7 +38,7 @@ import com.julun.vehicle.activities.search.SearchProdActivity;
 import com.julun.widgets.adapters.StaggedGridLayoutAdapter;
 import com.julun.widgets.popwin.BasicEasyPopupWindow;
 import com.julun.widgets.utils.PopWinHelper;
-import com.julun.widgets.viewpager.SimpleLoopViewPager;
+import com.julun.vehicle.viewpagers.SimpleLoopViewPager;
 
 import java.util.ArrayList;
 import java.util.List;

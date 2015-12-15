@@ -49,29 +49,4 @@
 
     </LinearLayout>
 
-
-<!--
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.julun.widgets.viewpager.SimpleLoopViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@+id/home_tool_bar"
-            app:animationTranslater="ZOOM_OUT_PAGE"
-            app:loopInterval="15000"
-            app:remoteDataRecordsField="records"
-            app:requestUrl="index/queryAdvs"
-            app:stopLoopOnTouch="true"
-            app:indicaterReact="true"
-            app:viewItemInitializer="com.julun.vehicle.viewpagers.SimpleHomeAdvInitializer"></com.julun.widgets.viewpager.SimpleLoopViewPager>
-
-    </LinearLayout>
-
--->
-
-
 </RelativeLayout>

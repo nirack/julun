@@ -1,4 +1,4 @@
-package com.julun.widgets.viewpager;
+package com.julun.vehicle.viewpagers;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 import com.julun.commons.reflect.ReflectUtil;
-import com.julun.datas.PageResult;
 import com.julun.datas.beans.Adv;
 import com.julun.exceptions.ConfigException;
 import com.julun.utils.ApplicationUtils;
@@ -33,6 +32,7 @@ import com.julun.volley.utils.Requests;
 import com.julun.widgets.R;
 import com.julun.widgets.adapters.listview.BaseListViewAdapter;
 import com.julun.widgets.viewholder.listview.ViewHolder;
+import com.julun.widgets.viewpager.SimpleGridViewIndicator;
 import com.julun.widgets.viewpager.anims.DepthPageTransformer;
 import com.julun.widgets.viewpager.anims.ZoomOutPageTransformer;
 
@@ -40,6 +40,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * 实现的内容：</br>
@@ -201,6 +202,8 @@ public class SimpleLoopViewPager extends FrameLayout {
         initializerClass = ta.getString(R.styleable.SimpleLoopViewPager_viewItemInitializer);
         try {
             initializer = (ViewItemInitializer) ReflectUtil.getClass(initializerClass).newInstance();
+//            initializer.setLooperView(this);
+//            initializer.setCxt(this.context);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(LOG_TAG, "获取初始化对象的接口出错,cause：\n" + e.getMessage());
@@ -305,19 +308,14 @@ public class SimpleLoopViewPager extends FrameLayout {
         if (StringHelper.isEmpty(requestUrl)) {
             throw new IllegalArgumentException("缺少参数 [ requestUrl ]");
         }
+        adapter = new LoopAdapter();
 
-        VolleyRequestCallback<PageResult<Adv>> callback = new VolleyRequestCallback<PageResult<Adv>>(this.getContext()) {
+
+        VolleyRequestCallback<List<Adv>> callback = new VolleyRequestCallback<List<Adv>>(context.get()) {
             @Override
-            public void doOnSuccess(PageResult response) {
-                realItemCount = response.getRecords().size();
-                createChildrenViews(response.getRecords());
-                adapter = new LoopAdapter();
-                viewPager.setAdapter(adapter);
-                if (realItemCount > 1) {
-                    viewPager.setCurrentItem(getRealCount() * 200 - 1);
-                    Log.d(this.getClass().getName(), "doOnSuccess() called with: " + "response = [" + response + "] , thread  := " + Thread.currentThread().getName());
-                    startLoop();
-                }
+            public void doOnSuccess(List<Adv> response) {
+                //response.getRecords()
+                afterLoadData(response);
             }
 
             @Override
@@ -333,6 +331,33 @@ public class SimpleLoopViewPager extends FrameLayout {
         final String reqUrl = requestUrl;
         String url = StringHelper.isNotHttpUrl(reqUrl) ? ApplicationUtils.BASE_URL_PREFIX + reqUrl : reqUrl;
         Requests.post(url, url, callback);
+    }
+
+    /**
+     * 加载完数据之后需要处理的
+     * @param response
+     */
+    public void afterLoadData(List<Adv> response) {
+        //设置实际有都少条记录.
+        setRealItemCount(response.size());
+        //初始化子view     createChildrenViews
+        int size = response.size();
+        for (Integer index = 0; index < size; index++) {
+            Object obj = response.get(index);
+            //初始化的时候保证了 initializer不为空,否则抛出运行时异常
+            View view = initializer.initializeView(context.get(),obj,layoutInflater);
+            childrenViews.put(index, view);
+            dataBinded.put(index, obj);
+            addIndicators(index);
+        }
+
+
+        viewPager.setAdapter(adapter);
+        if (realItemCount > 1) {
+            viewPager.setCurrentItem(getRealCount() * 200 - 1);
+            Log.d(this.getClass().getName(), "doOnSuccess() called with: " + "response = [" + response + "] , thread  := " + Thread.currentThread().getName());
+            startLoop();
+        }
     }
 
     /**
@@ -372,18 +397,6 @@ public class SimpleLoopViewPager extends FrameLayout {
 
     public void stopLoop(){
         uihandler.sendEmptyMessage(STOP_LOOP_FLAG);
-    }
-
-    private <T> void createChildrenViews(List<T> array) {
-        int size = array.size();
-        for (Integer index = 0; index < size; index++) {
-            Object obj = array.get(index);
-            //初始化的时候保证了 initializer不为空,否则抛出运行时异常
-            View view = initializer.initializeView(this.context.get(), obj, layoutInflater);
-            childrenViews.put(index, view);
-            dataBinded.put(index, obj);
-            addIndicators(index);
-        }
     }
 
     /**
@@ -491,23 +504,26 @@ public class SimpleLoopViewPager extends FrameLayout {
      * @return
      */
     public int getRealCount() {
-        int size = childrenViews.size();
         return realItemCount;
+    }
+
+    public void setRealItemCount(int realItemCount) {
+        this.realItemCount = realItemCount;
     }
 
     /**
      * 实现类必须提供无参构造函数.以方便通过映射方式获取实例.
      */
-    public static interface ViewItemInitializer<T> {
+    public abstract static class ViewItemInitializer<T> {
         /**
          * 完全自主化,随便返回任意的View都可以.返回的View将会作为ViewPager的子view.
          *
          * @param context
          * @param data           在实现类里要自己转型为实际的对象.使用之前自己要知道.
-         * @param layoutInflater 如果子view有定义好的布局文件...
          * @return
          */
-        public View initializeView(Context context, T data, final LayoutInflater layoutInflater);
+        public abstract View initializeView(Context context, T data, LayoutInflater layoutInflater);
+
     }
 
     /**
