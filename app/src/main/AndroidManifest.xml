@@ -67,6 +67,10 @@
         <activity android:name=".activities.login.LoginActivity"></activity>
         <activity android:name=".activities.examples.BuyListViewExampleActivity"/>
         <activity android:name=".activities.examples.BuyRecyclerExampleActivity"/>
+        <activity android:name=".activities.search.SearchProdActivity" />
+        <activity android:name=".activities.search.SearchResultActivity" />
+        <activity android:name=".activities.examples.PopWinTestActivity"></activity>
+        <activity android:name=".activities.login.LoginActivity"></activity>
     </application>
 
 </manifest>
