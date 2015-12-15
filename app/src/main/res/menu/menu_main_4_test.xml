@@ -21,6 +21,11 @@
         android:orderInCategory="100"
         android:title="弹出窗口"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/show_buy_list_view"
+        android:orderInCategory="100"
+        android:title="购物列表"
+        />
 
     <item
         android:id="@+id/refresh_test"

@@ -12,10 +12,10 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <!-- 读写外部存储 -->
+    <!--读写外部存储-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- 读写系统设置 -->
+    <!--读写系统设置-->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!-- 使用相机 -->
@@ -31,7 +31,7 @@
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <!-- 查询快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <!-- 震动 -->
+    <!--震动-->
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -65,6 +65,8 @@
         <activity android:name=".activities.search.SearchResultActivity" />
         <activity android:name=".activities.examples.PopWinTestActivity"></activity>
         <activity android:name=".activities.login.LoginActivity"></activity>
+        <activity android:name=".activities.examples.BuyListViewExampleActivity"/>
+        <activity android:name=".activities.examples.BuyRecyclerExampleActivity"/>
     </application>
 
 </manifest>
