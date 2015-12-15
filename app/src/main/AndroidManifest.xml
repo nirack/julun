@@ -17,11 +17,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--读写系统设置-->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!-- 使用相机 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -56,15 +56,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.MainActivity"
-            android:theme="@style/AppThemeNoActionBar" />
-        <activity
-            android:name=".activities.examples.ListViewExampleActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.examples.ListViewExampleActivity" />
         <activity android:name=".activities.examples.RecyclerViewExampleActivity" />
-        <activity android:name=".activities.scan.QRCodeActivity" android:theme="@style/AppThemeNoActionBar" />
-        <activity android:name=".activities.scan.CaptureResultActivity" android:theme="@style/AppThemeNoActionBar"></activity>
+        <activity android:name=".activities.scan.QRCodeActivity" />
+        <activity android:name=".activities.scan.CaptureResultActivity" />
+        <activity android:name=".activities.search.SearchProdActivity" />
+        <activity android:name=".activities.search.SearchResultActivity" />
+        <activity android:name=".activities.examples.PopWinTestActivity"></activity>
+        <activity android:name=".activities.login.LoginActivity"></activity>
         <activity android:name=".activities.examples.BuyListViewExampleActivity"/>
         <activity android:name=".activities.examples.BuyRecyclerExampleActivity"/>
     </application>

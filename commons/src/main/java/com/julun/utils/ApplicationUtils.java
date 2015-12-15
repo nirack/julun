@@ -15,9 +15,12 @@ import android.os.Parcelable;
 import android.telephony.TelephonyManager;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.julun.commons.R;
-import com.julun.utils.sp.SettintUtil;
+import com.julun.commons.images.BitMapCache;
+import com.julun.constants.PreferencesConstans;
+import com.julun.constants.SystemConstants;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -32,16 +35,22 @@ public class ApplicationUtils {
 
     //全局的  volley 请求队列
     public static RequestQueue requestQueue;
+    public static ImageLoader imageLoader;
     private static String deviceId;
+/*
 
     private static final String ipAddress = "120.26.67.181";
     private static final String webAppName = "sales";
     private static final String portNumber = "8088";
+*/
 
 //    private static final String ipAddress = "192.168.1.128";
 //        private static final String ipAddress = "192.168.2.105";
+
+    private static final String ipAddress = "192.168.1.117";
 //    private static final String webAppName = "sales";
-//    private static final String portNumber = "80";
+    private static final String webAppName = "";
+    private static final String portNumber = "80";
 
     public static final String BASE_URL_PREFIX = "http://" + ipAddress + ":" + portNumber + "/" + webAppName + "/";
 
@@ -169,7 +178,7 @@ public class ApplicationUtils {
     public static boolean isNewVersion() {
         Float oldversion = null;
         try {
-            String versionNumber = SettintUtil.getVersionNumber();
+            String versionNumber = SharedPreferencesUtils.getSharePreferences().getString(PreferencesConstans.VERSION_NUMBER, "0");
             oldversion = Float.parseFloat(versionNumber);
         } catch (Exception e) {
             return true;
@@ -200,7 +209,8 @@ public class ApplicationUtils {
         if(isNewVersion()){
             ApplicationUtils.deleteShortCut(appName);
             createShorts(appName, ic_launcher, cls);
-            SettintUtil.saveVersionNumber(getAppVersionName(application.get()));
+            SharedPreferencesUtils.commitString(PreferencesConstans.VERSION_NUMBER,
+                    getAppVersionName(application.get()));
         }
 
     }
@@ -212,6 +222,7 @@ public class ApplicationUtils {
         deviceId = tm.getDeviceId();
         //初始化Volley的请求队列.
         requestQueue = Volley.newRequestQueue(app);
+        imageLoader = new ImageLoader(requestQueue, new BitMapCache());
         //是否有相机
         hasCamera = app.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
         APP_BASE_EXTERNAL_STORAGE_PATH = EXTERNAL_STORAGE_PATH + File.separator + application.get().getPackageName() + File.separator;
@@ -224,7 +235,15 @@ public class ApplicationUtils {
         }
     }
 
+    public static ImageLoader getGlobeImageLoader() {
+        return imageLoader;
+    }
+
     public static RequestQueue getGlobeRequestQueue() {
         return requestQueue;
+    }
+
+    public static Application getGolbeApplication() {
+        return application.get();
     }
 }

@@ -28,6 +28,8 @@ def greenJavaCommonVersion = '2.0.0'
 def butterKnifeVersion = '7.0.1'
 def androidSupportPkgVersion = '23.1.1'
 def zxingVersion = '3.2.1'
+//def greenDaoVersion = '2.1.0'
+def sprinklesVersion = '1.3.1'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -42,6 +44,11 @@ dependencies {
 //    compile "com.belerweb:pinyin4j:$pinyin4jVersion"
     compile "com.google.code.gson:gson:$gsonVersion"
     compile "de.greenrobot:eventbus:$enventBusVewsion"
-    compile "de.greenrobot:java-common:$greenJavaCommonVersion"
+//    compile "de.greenrobot:java-common:$greenJavaCommonVersion"
     compile "com.google.zxing:core:$zxingVersion"
+
+//    compile "de.greenrobot:greendao:$greenDaoVersion"
+
+    compile "se.emilsjolander:sprinkles:$sprinklesVersion"
+
 }

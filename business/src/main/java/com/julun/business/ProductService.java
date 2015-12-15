@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.julun.datas.PageResult;
 import com.julun.datas.beans.Product;
 import com.julun.event.events.DataChangeEvent;
+import com.julun.event.events.FailureEvent;
 import com.julun.utils.ApplicationUtils;
 import com.julun.volley.VolleyRequestCallback;
 import com.julun.volley.utils.Requests;
@@ -25,6 +26,7 @@ public class ProductService extends BusiBaseService {
         Map<String, String> param = new HashMap<>();
 
         String url = ApplicationUtils.BASE_URL_PREFIX + "prod/query";
+
         VolleyRequestCallback<PageResult<Product>> callback = new VolleyRequestCallback<PageResult<Product>>(getContext()) {
             @Override
             public void doOnSuccess(PageResult<Product> response) {
@@ -32,18 +34,13 @@ public class ProductService extends BusiBaseService {
                 if (null == response) {
                     return;
                 }
-
                 DataChangeEvent<PageResult<Product>> event = new DataChangeEvent<PageResult<Product>>(response);
                 dataLoadedAndTellUiThread(event);
-
-
             }
 
             @Override
             public void doOnFailure(VolleyError error) {
-//                ToastHelper.showLong(context.getEventBus(), error.toString());
-                DataChangeEvent<PageResult<Product>> event = new DataChangeEvent<PageResult<Product>>();
-                event.setSuccess(false);
+                FailureEvent event = new FailureEvent(error.toString());
                 dataLoadedAndTellUiThread(event);
             }
         };

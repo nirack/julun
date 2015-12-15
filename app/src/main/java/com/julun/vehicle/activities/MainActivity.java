@@ -15,7 +15,9 @@ import com.julun.container.uicontroller.BaseFragment;
 import com.julun.vehicle.R;
 import com.julun.vehicle.activities.examples.BuyListViewExampleActivity;
 import com.julun.vehicle.activities.examples.ListViewExampleActivity;
+import com.julun.vehicle.activities.examples.PopWinTestActivity;
 import com.julun.vehicle.activities.examples.RecyclerViewExampleActivity;
+import com.julun.vehicle.activities.login.LoginActivity;
 import com.julun.vehicle.fragments.CargoFragment;
 import com.julun.vehicle.fragments.HomePageFragment;
 import com.julun.vehicle.fragments.ShoppingCartFragment;
@@ -88,6 +90,7 @@ public class MainActivity extends BaseActivity {
                     frag = userInfoFragment;
                 }
                 drawAbleResId = checked ? R.drawable.ic_account_circle_green_a700_24dp : R.drawable.ic_account_circle_black_24dp;
+                jumpActivity(LoginActivity.class);
                 break;
         }
 
@@ -124,6 +127,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.show_rec_view:
                 jumpActivity(RecyclerViewExampleActivity.class);
+                break;
+            case R.id.show_pop_win:
+                jumpActivity(PopWinTestActivity.class);
                 break;
             case R.id.show_buy_list_view:
                 jumpActivity(BuyListViewExampleActivity.class);

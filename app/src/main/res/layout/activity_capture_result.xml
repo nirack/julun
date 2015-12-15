@@ -9,7 +9,7 @@
         android:id="@+id/layout_top"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="@drawable/android_title_bg" >
+        android:background="@drawable/app_title_bg_red" >
 
         <ImageView
             android:id="@+id/barcode_back"
@@ -61,7 +61,7 @@
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/android_title_bg" >
+            android:background="@drawable/app_title_bg_red" >
 
             <Button
                 android:id="@+id/save"

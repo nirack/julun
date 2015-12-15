@@ -1,6 +1,7 @@
 package com.julun.container.uicontroller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import com.julun.container.BaseContainerInitializer;
 import com.julun.container.UIContainerEvnProvider;
 import com.julun.event.events.BaseSimpleEvent;
+import com.julun.event.events.DataChangeEvent;
+import com.julun.event.events.FailureEvent;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -75,11 +78,16 @@ public class BaseFragment extends Fragment implements UIContainerEvnProvider {
     /**
      * 跳转到activity
      *
-     * @param klass
+     * @param next
+     * @param extra 实际只取第一个
      */
-    public void jump2Activity(Class<? extends Activity> klass) {
+    public void jump2Activity(Class<? extends Activity> next, Bundle ... extra){
         Activity activity = this.getActivity();
-        activity.startActivity(new Intent(activity, klass));
+        Intent intent = new Intent(activity, next);
+        if(extra!=null && extra.length > 0){
+            intent.putExtras(extra[0]);
+        }
+        activity.startActivity(intent);
     }
 
     /**
@@ -123,13 +131,22 @@ public class BaseFragment extends Fragment implements UIContainerEvnProvider {
     }
 
     @Override
-    public Handler getHandler()
-
-
-
-
-
-    {
+    public Handler getHandler(){
         return null;
     }
+
+    /**
+     * 请求异常处理类 doOnFailure
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void onEventMainThread(FailureEvent event) {
+        //请求失败，网络异常等等情况
+        String errorInfo = event.getExtraMessage();
+        new AlertDialog.Builder(getActivity()).setTitle("提示")
+                .setMessage("数据获取失败, 请稍后重试")
+                .setPositiveButton("知道了", null)
+                .create();
+    }
+
 }

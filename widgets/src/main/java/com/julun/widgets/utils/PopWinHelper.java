@@ -1,29 +1,42 @@
 package com.julun.widgets.utils;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.text.Layout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
+import com.julun.widgets.popwin.BasicEasyPopupWindow;
+import com.julun.widgets.popwin.LoadProgressWin;
+
 /**
  */
 public class PopWinHelper {
+
+    public static BasicEasyPopupWindow getPopWin(int viewid){
+        BasicEasyPopupWindow basicEasyPopupWindow = new BasicEasyPopupWindow(null, viewid);
+        return basicEasyPopupWindow.focusable(true);
+    }
+
     /**
      * 获取一个弹出窗口,并设置外部可点击
      * @param contentView
      * @return
      */
-    public static PopupWindow getPopWin(View contentView){
-        PopupWindow popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // 这里如果返回true的话，touch事件将被拦截 ， 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-                return false;
-            }
-        });
-        return popupWindow;
+    public static BasicEasyPopupWindow getPopWin(@NonNull Context cxt,View contentView){
+        BasicEasyPopupWindow basicEasyPopupWindow = new BasicEasyPopupWindow(cxt,contentView);
+        return basicEasyPopupWindow.focusable(true).width(ViewGroup.LayoutParams.MATCH_PARENT).height(ViewGroup.LayoutParams.WRAP_CONTENT);
     }
+
+    public static LoadProgressWin getLoadingPopWin(@NonNull Context cxt,View contentView,int height){
+        if(height == 0){
+            height = ViewGroup.LayoutParams.MATCH_PARENT;
+        }
+        LoadProgressWin win = new LoadProgressWin(cxt,contentView);
+        win.height(height);
+        return win;
+    }
+
 }

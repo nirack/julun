@@ -140,7 +140,7 @@ public class CaptureResultActivity extends AppCompatActivity {
         }
     }
 
-    //打开camera，实现拍照操作    
+    //打开camera，实现拍照操作
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, RESULT_LOAD_IMAGE);

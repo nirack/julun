@@ -61,10 +61,27 @@
 
     <style name="PopupWindowAnimation">
 
-        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <item name="android:windowEnterAnimation">@animator/popshow_anim</item>
 
-        <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+        <item name="android:windowExitAnimation">@animator/pophidden_anim</item>
 
+    </style>
+
+    <style name="EditText">
+        <item name="android:textAppearance">?android:textAppearance</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColorHint">@color/textColorSecondary</item>
+        <item name="android:background">@null</item>
+        <item name="android:minHeight">48.0dip</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="SignupRadionButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/green_radio_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@null</item>
+        <item name="android:clickable">false</item>
+        <item name="android:button">@null</item>
     </style>
 
 </resources>

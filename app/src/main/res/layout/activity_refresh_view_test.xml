@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.julun.vehicle.activities.examples.RefreshViewTestActivity">
+
+    <Button
+        android:id="@+id/btn_reload"
+        android:text="重新加载"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/btn_load_more"
+        android:text="加载更多"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_add_footer"
+        android:text="添加Footer"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+<!--
+
+    <com.julun.widgets.ui.refreshable.ExtendedSwiperRefreshView
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+    </com.julun.widgets.ui.refreshable.ExtendedSwiperRefreshView>
+-->
+
+    <com.julun.widgets.ui.refreshable.SimpleRefreshView
+        android:id="@+id/simpleRefreshView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.julun.widgets.ui.refreshable.SimpleRefreshView>
+
+</LinearLayout>

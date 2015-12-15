@@ -3,6 +3,7 @@ package com.julun.widgets.viewpager;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.PagerAdapter;
@@ -15,23 +16,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 import com.julun.commons.reflect.ReflectUtil;
 import com.julun.datas.PageResult;
 import com.julun.datas.beans.Adv;
-import com.julun.event.EventBusUtils;
-import com.julun.event.events.BaseSimpleEvent;
+import com.julun.exceptions.ConfigException;
 import com.julun.utils.ApplicationUtils;
-import com.julun.utils.JsonHelper;
 import com.julun.utils.StringHelper;
 import com.julun.utils.ToastHelper;
 import com.julun.volley.VolleyRequestCallback;
 import com.julun.volley.utils.Requests;
 import com.julun.widgets.R;
+import com.julun.widgets.adapters.listview.BaseListViewAdapter;
+import com.julun.widgets.viewholder.listview.ViewHolder;
 import com.julun.widgets.viewpager.anims.DepthPageTransformer;
 import com.julun.widgets.viewpager.anims.ZoomOutPageTransformer;
 
@@ -39,10 +40,6 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
-import de.greenrobot.event.ThreadMode;
 
 /**
  * 实现的内容：</br>
@@ -52,28 +49,27 @@ import de.greenrobot.event.ThreadMode;
  * <li>定义每个子view的点击事件的处理函数</li>
  * </ul>
  */
-public class LoopViewPager extends FrameLayout {
+public class SimpleLoopViewPager extends FrameLayout {
     //constants
-    private static final String LOG_TAG = LoopViewPager.class.getName();
+    private static final String LOG_TAG = SimpleLoopViewPager.class.getName();
     //    轮播标记
     private static final int MARCH_ON = 0;
 
     //停止轮播标记1
     private static final int STOP_LOOP_FLAG = -1;
 
-    //选中RadioButton 的标记
-    private static final int CHECK_RADIO = 2;
+    public static final int CHANGE_PAGE = 2;//vp页面变更
 
     /**
      * 使用 ZOOM_OUT 动画
      *
-     * @see com.julun.widgets.viewpager.anims.ZoomOutPageTransformer
+     * @see ZoomOutPageTransformer
      */
     public static final int ANI_ZOOM_OUT_PAGE = 1;
     /**
      * 使用 DEPTH_PAGE 动画.
      *
-     * @see com.julun.widgets.viewpager.anims.DepthPageTransformer
+     * @see DepthPageTransformer
      */
     public static final int ANI_DEPTH_PAGE = 2;
 
@@ -82,12 +78,7 @@ public class LoopViewPager extends FrameLayout {
     //xml文件声明的属性
 
     //点击停止自动轮播,默认为true
-    private boolean stopLoopOnTouch = true;
-    //点击停止自动轮播,默认为true
-    private boolean useIndicater = true;
-
-    //是否点击RadioButton 与 viewpager联动
-    private boolean indicaterReact = false;
+    private boolean stopLoopOnTouch = false;
 
     //轮播间隔的时间,单位 毫秒
     private int loopInterval = 3000;
@@ -115,7 +106,9 @@ public class LoopViewPager extends FrameLayout {
     private WeakReference<Context> context;
 
     private ViewPager viewPager;
-    private Indicator indicator;
+    private SimpleGridViewIndicator indicator;
+
+    private BaseListViewAdapter<Integer> gridAdapter;
 
     private Map<Integer, ViewPager.PageTransformer> aniTranslaterMap = new HashMap<>();
 
@@ -135,8 +128,8 @@ public class LoopViewPager extends FrameLayout {
     /**
      * 根据 initializerClass 获取的类对象.
      *
-     * @see LoopViewPager#initializerClass
-     * @see LoopViewPager.ViewItemInitializer
+     * @see SimpleLoopViewPager#initializerClass
+     * @see SimpleLoopViewPager.ViewItemInitializer
      */
     private ViewItemInitializer initializer;
     private LayoutInflater layoutInflater;
@@ -145,9 +138,26 @@ public class LoopViewPager extends FrameLayout {
     //用户手按着屏幕的标记
     private Boolean isStopByTouch = false;
 
-    EventBus mainBus = EventBusUtils.getNonDefaultEventBus();//viewpage触发事件
+    Handler uihandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case STOP_LOOP_FLAG:
+                    ToastHelper.showLong(context.get(),"停止轮播....");
+                    uihandler.removeMessages(MARCH_ON);
+                    break;
+                case MARCH_ON:
+                    int currentItem = viewPager.getCurrentItem();
+                    int position = currentItem + 1;
+                    Integer realPosition = getRealPosition(position);
+                    viewPager.setCurrentItem(position);
+                    uihandler.sendEmptyMessageDelayed(MARCH_ON, 3000);
+                    break;
+            }
+        }
+    };
 
-    public LoopViewPager(Context context, AttributeSet attrs) {
+    public SimpleLoopViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = new WeakReference<Context>(context);
 
@@ -156,7 +166,22 @@ public class LoopViewPager extends FrameLayout {
         imitComponent();
 
         initEvents();
-        mainBus.register(this);
+    }
+
+
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        //通过这个来实现手指没有离开之前,不继续轮播
+        int action = MotionEventCompat.getActionMasked(ev);
+        if (stopLoopOnTouch) {
+            synchronized (isStopByTouch) {
+                if ((action == MotionEvent.ACTION_DOWN)) {
+                    isStopByTouch = true;
+                } else if (ev.getAction() == MotionEvent.ACTION_UP && isStopByTouch) {
+                    isStopByTouch = false;
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
@@ -165,18 +190,15 @@ public class LoopViewPager extends FrameLayout {
      * @param attrs
      */
     private void extractAttrs(AttributeSet attrs) {
-        TypedArray ta = context.get().obtainStyledAttributes(attrs, R.styleable.LoopViewPager);
+        TypedArray ta = context.get().obtainStyledAttributes(attrs, R.styleable.SimpleLoopViewPager);
         //TODO 初始化自定义属性
-        stopLoopOnTouch = ta.getBoolean(R.styleable.LoopViewPager_stopLoopOnTouch, true);
-        useIndicater = ta.getBoolean(R.styleable.LoopViewPager_useIndicater, true);
-        loopInterval = ta.getInt(R.styleable.LoopViewPager_loopInterval, 3000);
-        animationTranslater = ta.getInt(R.styleable.LoopViewPager_animationTranslater, 0);
-        setRemoteDataRecordsField(ta.getString(R.styleable.LoopViewPager_remoteDataRecordsField));
-        requestUrl = ta.getString(R.styleable.LoopViewPager_requestUrl);
+        stopLoopOnTouch = ta.getBoolean(R.styleable.SimpleLoopViewPager_stopLoopOnTouch, false);
+        loopInterval = ta.getInt(R.styleable.SimpleLoopViewPager_loopInterval, 3000);
+        animationTranslater = ta.getInt(R.styleable.SimpleLoopViewPager_animationTranslater, 0);
+        setRemoteDataRecordsField(ta.getString(R.styleable.SimpleLoopViewPager_remoteDataRecordsField));
+        requestUrl = ta.getString(R.styleable.SimpleLoopViewPager_requestUrl);
 
-        indicaterReact = ta.getBoolean(R.styleable.LoopViewPager_indicaterReact,false);
-
-        initializerClass = ta.getString(R.styleable.LoopViewPager_viewItemInitializer);
+        initializerClass = ta.getString(R.styleable.SimpleLoopViewPager_viewItemInitializer);
         try {
             initializer = (ViewItemInitializer) ReflectUtil.getClass(initializerClass).newInstance();
         } catch (Exception e) {
@@ -185,7 +207,7 @@ public class LoopViewPager extends FrameLayout {
             throw new RuntimeException(e);
         }
 
-        itemClickHandler = ta.getString(R.styleable.LoopViewPager_itemClickHandler);
+        itemClickHandler = ta.getString(R.styleable.SimpleLoopViewPager_itemClickHandler);
         if (StringHelper.isNotEmpty(itemClickHandler)) {
             try {
                 itemClickListener = (ItemClickListener) ReflectUtil.getClass(itemClickHandler).newInstance();
@@ -194,6 +216,11 @@ public class LoopViewPager extends FrameLayout {
                 Log.e(LOG_TAG, "获取 子view 的点击事件处理器 出错,cause：\n" + e.getMessage());
                 throw new RuntimeException(e);
             }
+        }else{
+            if(!ItemClickListener.class.isAssignableFrom(context.get().getClass())){
+                throw new RuntimeException(new ConfigException("需要为 " + this.getClass().getName() + "配置 itemClickHandler ,或者引入 该组件的 Activity 实现 " + ItemClickListener.class.getName() + "接口."));
+            }
+            itemClickListener = (ItemClickListener) context.get();
         }
 
         ta.recycle();
@@ -201,44 +228,35 @@ public class LoopViewPager extends FrameLayout {
 
     private void imitComponent() {
 
-        viewPager = new ViewPager(this.context.get()) {
-            @Override
-            public boolean dispatchTouchEvent(MotionEvent ev) {
-                //通过这个来实现手指没有离开之前,不继续轮播
-                int action = MotionEventCompat.getActionMasked(ev);
-                if (stopLoopOnTouch) {
-                    synchronized (isStopByTouch){
-                        if ((action == MotionEvent.ACTION_DOWN)) {
-                            isStopByTouch = true;
-                        } else if (ev.getAction() == MotionEvent.ACTION_UP && isStopByTouch) {
-                            isStopByTouch = false;
-                        }
-                    }
-                }
-                return super.dispatchTouchEvent(ev);
-            }
-        };
+        layoutInflater = LayoutInflater.from(this.context.get());
+        View realView = layoutInflater.inflate(R.layout.simple_loop_view_pager, null);
+//        viewPager = (ViewPager) realView.findViewById(R.id.view_pager);
+        viewPager = new ViewPager(context.get());
 
         //设置动画
         useInnerAnimation(animationTranslater);
 
+        gridAdapter = new BaseListViewAdapter<Integer>(context.get(), R.layout.view_pager_indicator) {
+            @Override
+            public void convert(ViewHolder vh, Integer adv) {
+            }
+        };
+
+        indicator = new SimpleGridViewIndicator(context.get());
+        indicator.setBackgroundResource(R.color.ivory);
+        FrameLayout.LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 10);
+        layoutParams.gravity = Gravity.BOTTOM;
+        indicator.setLayoutParams(layoutParams);
+        indicator.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        indicator.setOrientation(LinearLayout.HORIZONTAL);
+        indicator.setGravity(Gravity.BOTTOM);
+        indicator.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+
         this.addView(viewPager);
-
-        if (useIndicater) {
-//            indicator = new RadioGroup(this.context.get());
-            indicator = new Indicator(context.get());
-            indicator.setOrientation(LinearLayout.HORIZONTAL);
-            indicator.setGravity(Gravity.BOTTOM);
-            indicator.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
-
-            this.addView(indicator);
-        }
-
-        layoutInflater = LayoutInflater.from(this.context.get());
-
+        this.addView(indicator);
         //请求处理数据
         requestAndProcessData(requestUrl);
-
     }
 
     private void initEvents() {
@@ -252,22 +270,7 @@ public class LoopViewPager extends FrameLayout {
             public void onPageSelected(int position) {
                 Log.d("轮播---ViewPager选中事件", "onPageSelected() called with: " + "position = [" + position + "]" + context.get().getClass().getName());
                 Integer realPosition = getRealPosition(position);
-                if (indicaterReact) {
-//                        indicator.check(indicator.getChildAt(realPosition).getId());
-                    ViewPageMoveEvent stickyEvent = mainBus.getStickyEvent(ViewPageMoveEvent.class);
-                    int checkedRadioButtonId = indicator.getCheckid();
-                    Log.d("轮播---VP选中--stickyEvent ", " stickyEvent :  [" + JsonHelper.toJson(stickyEvent) + "] ,checkedRadioButtonId  is : " + checkedRadioButtonId + " , and will check : " + realPosition);
-                    if (checkedRadioButtonId == realPosition) {
-                        Log.d("轮播---VP选中--stickyEvent ", " 按钮点击触发的事件，返回，不再继续....");
-                        return;
-                    }
-                    if (stickyEvent == null) {
-                        Log.d("轮播---VP选中--stickyEvent ", " 不是   按钮点击触发的事件，继续....");
-                        mainBus.post(ViewPageMoveEvent.get(ViewPageMoveEvent.CHANGE_PAGE, realPosition));
-                    } else {
-                        mainBus.removeAllStickyEvents();
-                    }
-                }
+                indicator.check(realPosition);
             }
 
             @Override
@@ -277,76 +280,24 @@ public class LoopViewPager extends FrameLayout {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MainThread, sticky = false)
-    public void onEventMainThread(ViewPageMoveEvent env) {
-        Log.d("轮播-", "onEventMainThread() called with: " + "env = [" + JsonHelper.toJson(env) + "] , currentThread 当前ID " + Thread.currentThread().getName());
-        int action = env.actionSource;
-        switch (action) {
-            case ViewPageMoveEvent.CHECK_RADIO:
-                Log.d("轮播-点击了Button ，将要变更VP", "onEventMainThread 当前 VP ID : " + env.position + " , 将要被点击的ID：　" + env.position + " ,isStopByTouch := " + isStopByTouch );
-                if(!isStopByTouch){
-                    viewPager.setCurrentItem(env.position);
-                }
-                break;
-            case ViewPageMoveEvent.CHANGE_PAGE:
-                int checked = indicator.getCheckid();
-                Log.d("轮播将要点击按钮", "onEventMainThread 当前ID : " + checked + " , 将要被点击的ID：　" + env.position + "");
-                if(checked == env.position){
-                    return;
-                }
-                indicator.check(env.position);
-                break;
-            case ViewPageMoveEvent.LOOP_PLAY:
-                Log.d("自动轮播，将要变更VP", "当前ID : " + env.position   + " , 将要被点击的ID：　" + env.position + "");
-                if(!isStopByTouch){//被停止了
-                    viewPager.setCurrentItem(env.position);
-                }
-                break;
-        }
-    }
-
     /**
      * 添加RadioButton.
      *
      * @param index
      */
-    private void addIndicators(int index) {
-        ImageButton btn = new ImageButton(this.context.get());
-        btn.setImageResource(R.drawable.ic_circle_radio_btn_off);
-        btn.getBackground().setAlpha(100);//设置背景透明
-//        btn.setBackgroundResource(R.drawable.ic_circle_radio_btn_off);
-        btn.setPadding(12, 0, 12, 2);//设置一些编剧，不要让按钮靠的太近
+    private void addIndicators(Integer index) {
+        gridAdapter.add(index);
+        Button btn = new Button(context.get());
+        btn.setBackgroundResource(R.drawable.app_title_bg_shape);
+        btn.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
+        param.weight =1;
+        param.leftMargin = 3;
+        param.rightMargin = 3;
+        btn.setLayoutParams(param);
         btn.setTag(index);
-
-        if(indicaterReact){
-            btn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("---选中事件", "RadioButton onClick() called with: " + "v = [" + v + "]");
-                    int realCount = getRealCount();
-                    int currentItem = viewPager.getCurrentItem();
-                    int index = (int) v.getTag();
-                    if (index == getRealPosition(currentItem)) {
-                        return;
-                    }
-                    // TODO: 2015-11-25 测试过后可以删掉这个变量
-                    final Integer next = currentItem / realCount * realCount + index;
-//                    mainBus.postSticky(ViewPageMoveEvent.get(ViewPageMoveEvent.CHECK_RADIO, next,true));
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            viewPager.setCurrentItem(next,true);
-                        }
-                    });
-                    indicator.check((Integer) v.getTag());
-                }
-            });
-        }
-
-        indicator.addView(btn);
+        this.indicator.addView(btn);
     }
-
-    Handler handler = new Handler();
 
     public void requestAndProcessData(String requestUrl) {
         requestUrl = StringHelper.ifEmpty(requestUrl, this.requestUrl);
@@ -363,7 +314,7 @@ public class LoopViewPager extends FrameLayout {
                 adapter = new LoopAdapter();
                 viewPager.setAdapter(adapter);
                 if (realItemCount > 1) {
-                    viewPager.setCurrentItem(getRealCount() * 200);
+                    viewPager.setCurrentItem(getRealCount() * 200 - 1);
                     Log.d(this.getClass().getName(), "doOnSuccess() called with: " + "response = [" + response + "] , thread  := " + Thread.currentThread().getName());
                     startLoop();
                 }
@@ -416,22 +367,11 @@ public class LoopViewPager extends FrameLayout {
         if (loopInterval < 1) {
             return;
         }
+        this.uihandler.sendEmptyMessage(MARCH_ON);
+    }
 
-        new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Log.d("移动下一步", "run() called with: " + " , now := " + System.currentTimeMillis());
-                        Thread.sleep(loopInterval);
-                        mainBus.post(ViewPageMoveEvent.get(ViewPageMoveEvent.LOOP_PLAY, viewPager.getCurrentItem() + 1));
-                    } catch (InterruptedException e) {
-                    }
-                }
-            }
-        }.start();
-
-
+    public void stopLoop(){
+        uihandler.sendEmptyMessage(STOP_LOOP_FLAG);
     }
 
     private <T> void createChildrenViews(List<T> array) {
@@ -442,9 +382,7 @@ public class LoopViewPager extends FrameLayout {
             View view = initializer.initializeView(this.context.get(), obj, layoutInflater);
             childrenViews.put(index, view);
             dataBinded.put(index, obj);
-            if (useIndicater && size > 1) {
-                addIndicators(index);
-            }
+            addIndicators(index);
         }
     }
 
@@ -462,8 +400,8 @@ public class LoopViewPager extends FrameLayout {
      * 调用这个方法之前，一定要初始化好 ViewPager 对象
      *
      * @param translater
-     * @see LoopViewPager#ANI_ZOOM_OUT_PAGE
-     * @see LoopViewPager#ANI_DEPTH_PAGE
+     * @see SimpleLoopViewPager#ANI_ZOOM_OUT_PAGE
+     * @see SimpleLoopViewPager#ANI_DEPTH_PAGE
      */
     public void useInnerAnimation(int translater) {
         // TODO: 2015-11-08  使用原生的接口设置动画效果,兼容性稍后再做
@@ -531,7 +469,7 @@ public class LoopViewPager extends FrameLayout {
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.doOnClick(dataBinded.get(positionWrap));
+                itemClickListener.onViewPagerItemClick(dataBinded.get(positionWrap));
             }
         });
         listenerAssignFlag.put(positionWrap, Boolean.TRUE);
@@ -575,11 +513,11 @@ public class LoopViewPager extends FrameLayout {
     /**
      * 每个子view点击的响应函数.
      */
-    public static interface ItemClickListener {
+    public static interface ItemClickListener<T> {
         /**
          * @param data 与当前view绑定的数据对象.
          */
-        public void doOnClick(Object data);
+        public void onViewPagerItemClick(T data);
     }
 
     public long getLoopInterval() {
@@ -599,56 +537,4 @@ public class LoopViewPager extends FrameLayout {
         return requestUrl;
     }
 
-    private static class ViewPageMoveEvent extends BaseSimpleEvent {
-        public int actionSource;// 事件的触发源头,1:点击radionButton,2:滑动,3:自动轮播
-        public int position;// viewpage的目标item 或者 RadioButton的ID
-        public static final int CHECK_RADIO = 1;//点击按钮
-        public static final int CHANGE_PAGE = 2;//vp页面变更
-        public static final int LOOP_PLAY = 3;//轮播Vp
-        public boolean stop = false;//是否就此打住事件的传播
-
-        public ViewPageMoveEvent(int actionSource, int position) {
-            super(MARCH_ON);
-            this.actionSource = actionSource;
-            this.position = position;
-        }
-
-        /**
-         * @param action
-         * @param position
-         * @return
-         */
-        public static ViewPageMoveEvent get(int action, int position,boolean ... stopHere) {
-            ViewPageMoveEvent env = new ViewPageMoveEvent(action, position);
-            if(stopHere !=null && stopHere.length > 0 ){
-                env.stop = stopHere[0];
-            }
-            return env;
-        }
-    }
-
-    private static class Indicator extends LinearLayout{
-        public Indicator(Context context) {
-            super(context);
-        }
-        private int checkid = -1;
-        public void check(int id ){
-            int lastCheckedId = this.getCheckid();
-            Log.d(this.getClass().getName(), "Indicator check() " + "id = [" + id + "]  ， "+ " lastCheckedId = [" + lastCheckedId + "]");
-            if(id == lastCheckedId){
-                return;
-            }
-            ImageButton btn = (ImageButton) this.getChildAt(lastCheckedId);
-            if(lastCheckedId != -1){
-                btn.setImageResource(R.drawable.ic_circle_radio_btn_off);
-            }
-            this.checkid = id;
-            btn = (ImageButton) this.getChildAt(id);
-            btn.setImageResource(R.drawable.ic_circle_radio_btn_on);
-        }
-
-        public int getCheckid() {
-            return checkid;
-        }
-    }
 }

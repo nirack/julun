@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.julun.vehicle.activities.search.SearchProdActivity">
+
+    <LinearLayout
+        android:id="@+id/search_tool_bar"
+        android:orientation="horizontal"
+        android:background="@drawable/app_title_bg_shape"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/home_tool_bar"
+            android:src="@drawable/ic_action_left_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/search_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/search_box"
+            android:drawableLeft="@drawable/ic_search_green_a700_24dp"
+            android:hint="@string/query_goods_btn_hint"
+            android:focusable="true"
+            android:singleLine="true"
+            android:textColor="@color/darkgray" android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/search_button"
+            android:text="搜索"
+            android:clickable="true"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
+
+            android:src="@drawable/ic_action_search"
+            android:background="@drawable/app_title_bg_shape"
+
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+<!--
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.julun.widgets.viewpager.SimpleLoopViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/home_tool_bar"
+            app:animationTranslater="ZOOM_OUT_PAGE"
+            app:loopInterval="15000"
+            app:remoteDataRecordsField="records"
+            app:requestUrl="index/queryAdvs"
+            app:stopLoopOnTouch="true"
+            app:indicaterReact="true"
+            app:viewItemInitializer="com.julun.vehicle.viewpagers.SimpleHomeAdvInitializer"></com.julun.widgets.viewpager.SimpleLoopViewPager>
+
+    </LinearLayout>
+
+-->
+
+
+</RelativeLayout>

@@ -11,12 +11,12 @@ import com.julun.datas.beans.Adv;
 import com.julun.utils.ApplicationUtils;
 import com.julun.vehicle.R;
 import com.julun.volley.utils.Requests;
-import com.julun.widgets.viewpager.LoopViewPager;
+import com.julun.widgets.viewpager.SimpleLoopViewPager;
 
 /**
  * Created by Administrator on 2015-11-09.
  */
-public class HomeAdvInitializer implements LoopViewPager.ViewItemInitializer<Adv> {
+public class SimpleHomeAdvInitializer implements SimpleLoopViewPager.ViewItemInitializer<Adv> {
     /**
      * 完全自主化,随便返回任意的View都可以.返回的View将会作为ViewPager的子view.
      *
