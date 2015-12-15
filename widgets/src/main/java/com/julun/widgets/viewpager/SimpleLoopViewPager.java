@@ -143,7 +143,7 @@ public class SimpleLoopViewPager extends FrameLayout {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case STOP_LOOP_FLAG:
-                    ToastHelper.showLong(context.get(),"停止轮播....");
+//                    ToastHelper.showLong(context.get(),"停止轮播....");
                     uihandler.removeMessages(MARCH_ON);
                     break;
                 case MARCH_ON:

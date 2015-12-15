@@ -11,13 +11,15 @@ import java.util.Map;
  * Created by danjp on 2015/12/10.
  * 字节码请求：验证码图片
  */
+@Deprecated
 public class ByteArrayRequest extends Request<byte[]> {
     private Map<String, String> param;
     private Response.Listener<byte[]> successListener;
 
     public ByteArrayRequest(String url, VolleyRequestCallback<byte[]> callback, Map<String, String> map) {
         super(Request.Method.POST, url, callback.errorListener);
-        successListener = callback.successListener;
+//        callback.successListener
+//        successListener = callback.successListener;
         param = map;
     }
 
