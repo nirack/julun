@@ -26,7 +26,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.julun.annotations.business.BusinessBean;
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
-import com.julun.business.IndexService;
+import com.julun.business.service.IndexService;
 import com.julun.container.uicontroller.BaseFragment;
 import com.julun.datas.beans.County;
 import com.julun.event.events.DataChangeEvent;

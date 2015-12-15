@@ -31,17 +31,9 @@ public class LoginActivity extends BaseActivity {
         }
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag(LoginFragment.FRAGMENT_LOGIN_TAG);
         if(savedInstanceState == null) {
-            /*FragmentManager fm = getFragmentManager();
-            Fragment fragment = fm.findFragmentByTag(LoginFragment.FRAGMENT_LOGIN_TAG);
-            FragmentTransaction trans = fm.beginTransaction();
-            if (fragment == null) {
-                fragment = new LoginFragment();
-                trans.add(R.id.fragmentContainer, fragment, LoginFragment.FRAGMENT_LOGIN_TAG).commit();
-            } else {
-                trans.replace(R.id.fragmentContainer, fragment, LoginFragment.FRAGMENT_LOGIN_TAG).commit();
-            }*/
-            transaction.add(R.id.fragmentContainer, new LoginFragment(), LoginFragment.FRAGMENT_LOGIN_TAG).commit();
+            transaction.replace(R.id.fragmentContainer, new LoginFragment(), LoginFragment.FRAGMENT_LOGIN_TAG).commit();
         }else{
             transaction.show(getFragmentManager().findFragmentByTag(LoginFragment.FRAGMENT_LOGIN_TAG));
         }

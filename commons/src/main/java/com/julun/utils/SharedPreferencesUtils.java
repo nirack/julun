@@ -26,6 +26,30 @@ public final class SharedPreferencesUtils {
         return preferences;
     }
 
+    public static String getString(String key, String value) {
+        return SharedPreferencesUtils.getSharePreferences().getString(key, value);
+    }
+
+    public static boolean getBoolean(String key, boolean value) {
+        return SharedPreferencesUtils.getSharePreferences().getBoolean(key, value);
+    }
+
+    public static int getInt(String key, int value) {
+        return SharedPreferencesUtils.getSharePreferences().getInt(key, value);
+    }
+
+    public static long getLong(String key, long value) {
+        return SharedPreferencesUtils.getSharePreferences().getLong(key, value);
+    }
+
+    public static float getFloat(String key, float value) {
+        return SharedPreferencesUtils.getSharePreferences().getFloat(key, value);
+    }
+
+    public static Set<String> getStringSet(String key, Set<String> value) {
+        return SharedPreferencesUtils.getSharePreferences().getStringSet(key, value);
+    }
+
     public static void commitString(String key, String value) {
         SharedPreferences.Editor editor = SharedPreferencesUtils.getEditor().putString(key, value);
         commit(editor);
@@ -54,6 +78,10 @@ public final class SharedPreferencesUtils {
     public static void commitStringSet(String key, Set<String> value) {
         SharedPreferences.Editor editor = SharedPreferencesUtils.getEditor().putStringSet(key, value);
         commit(editor);
+    }
+
+    public static void remove(String key) {
+        SharedPreferencesUtils.getEditor().remove(key);
     }
 
     private static void commit(SharedPreferences.Editor editor) {

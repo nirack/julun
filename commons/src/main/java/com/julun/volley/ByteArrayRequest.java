@@ -14,12 +14,11 @@ import java.util.Map;
 @Deprecated
 public class ByteArrayRequest extends Request<byte[]> {
     private Map<String, String> param;
-    private Response.Listener<byte[]> successListener;
+    private Response.Listener<String> successListener;
 
     public ByteArrayRequest(String url, VolleyRequestCallback<byte[]> callback, Map<String, String> map) {
         super(Request.Method.POST, url, callback.errorListener);
-//        callback.successListener
-//        successListener = callback.successListener;
+        successListener = callback.successListener;
         param = map;
     }
 
@@ -36,6 +35,6 @@ public class ByteArrayRequest extends Request<byte[]> {
 
     @Override
     protected void deliverResponse(byte[] response) {
-        successListener.onResponse(response);
+        successListener.onResponse(response.toString());
     }
 }
