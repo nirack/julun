@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 import com.julun.annotations.views.ContentLayout;
 import com.julun.container.uicontroller.BaseActivity;
-import com.julun.datas.beans.localdata.SearchHistory;
+import com.julun.datas.localdata.SearchHistory;
 import com.julun.utils.ToastHelper;
 import com.julun.vehicle.R;
 import com.julun.widgets.viewpager.SimpleLoopViewPager;

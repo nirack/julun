@@ -6,6 +6,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.julun.constants.SystemConstants;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -26,7 +27,6 @@ import java.util.Map;
  *
  */
 public class GenericTypedRequest<T> extends Request<String> {
-    protected static final String PROTOCOL_CHARSET = "utf-8";
     private Map<String, String> param;
     private Response.Listener<String> successListener;
 
@@ -57,7 +57,7 @@ public class GenericTypedRequest<T> extends Request<String> {
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         try {
-            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
+            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers, SystemConstants.PROTOCOL_CHARSET));
             return Response.success(jsonString, HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));

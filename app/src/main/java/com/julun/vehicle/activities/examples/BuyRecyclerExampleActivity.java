@@ -11,7 +11,6 @@ import android.widget.Button;
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.container.uicontroller.BaseActivity;
-import com.julun.datas.beans.TestBean;
 import com.julun.vehicle.R;
 import com.julun.widgets.adapters.recyclerview.BaseRecyclerViewAdapter;
 import com.julun.widgets.viewholder.recycler.ViewHolder;
@@ -43,8 +42,8 @@ public class BuyRecyclerExampleActivity extends BaseActivity {
     @Bind(R.id.change_recycler_view_button)
     Button button;
     
-    private List<TestBean> datas = new ArrayList<>();
-    private BaseRecyclerViewAdapter<TestBean> adapter;
+//    private List<TestBean> datas = new ArrayList<>();
+//    private BaseRecyclerViewAdapter<TestBean> adapter;
     @AfterInitView
     private void initDatas(){
         new Thread(runnable).start();
@@ -54,6 +53,7 @@ public class BuyRecyclerExampleActivity extends BaseActivity {
         RecyclerView.LayoutManager list = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.VERTICAL);
         
         listView.setLayoutManager(list);
+        /*
         adapter =new BaseRecyclerViewAdapter<TestBean>(this,R.layout.example_buy_item){
             @Override
             protected void renderView(ViewHolder vh, TestBean adv) {
@@ -71,7 +71,7 @@ public class BuyRecyclerExampleActivity extends BaseActivity {
             }
         };
         listView.setAdapter(adapter);
-
+*/
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +97,7 @@ public class BuyRecyclerExampleActivity extends BaseActivity {
 
 
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler(){/*
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -142,7 +142,7 @@ public class BuyRecyclerExampleActivity extends BaseActivity {
             catch (JSONException e)
             {
             }
-        }
+        }*/
     };
 
     Runnable runnable = new Runnable() {

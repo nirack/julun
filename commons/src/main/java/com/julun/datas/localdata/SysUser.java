@@ -1,4 +1,4 @@
-package com.julun.datas.beans.localdata;
+package com.julun.datas.localdata;
 
 import java.util.Date;
 

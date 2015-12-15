@@ -1,7 +1,5 @@
 package com.julun.utils;
 
-import com.julun.datas.beans.County;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

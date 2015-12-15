@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.container.uicontroller.BaseActivity;
-import com.julun.datas.beans.TestBean;
 import com.julun.vehicle.R;
 import com.julun.widgets.adapters.listview.BaseListViewAdapter;
 import com.julun.widgets.viewholder.listview.ViewHolder;
@@ -50,11 +49,11 @@ import butterknife.Bind;
  */
 @ContentLayout(R.layout.example_buy_list_view)
 public class BuyListViewExampleActivity extends BaseActivity{
-    private List<TestBean> datas = new ArrayList<>();
+//    private List<TestBean> datas = new ArrayList<>();
     
     @Bind(R.id.car_list_view)
     ListView listView;
-    private BaseListViewAdapter<TestBean> adapter;
+//    private BaseListViewAdapter<TestBean> adapter;
     @Bind(R.id.change_list_view_button)
     Button button;
 
@@ -94,6 +93,7 @@ public class BuyListViewExampleActivity extends BaseActivity{
         };
         
         new Thread(runnable).start();
+/*
 
         adapter = new BaseListViewAdapter<TestBean>(this, R.layout.example_buy_item) {
             @Override
@@ -117,6 +117,7 @@ public class BuyListViewExampleActivity extends BaseActivity{
             }
 
         };
+*/
 
 //        mMainHanlder = new MainHandler();
 //        listView.setOnItemClickListener(new Btn1Listener());
@@ -313,6 +314,7 @@ public class BuyListViewExampleActivity extends BaseActivity{
                     int prodId = myjObject.getInt("prodId");
                     int marketPrice = myjObject.getInt("marketPrice");
                     int buyPrice = myjObject.getInt("buyPrice");
+                    /*
                     TestBean bean = new TestBean();
                     bean.setImageUrl(prodImageUrl);
                     bean.setInfo(selectedDesc);
@@ -323,13 +325,16 @@ public class BuyListViewExampleActivity extends BaseActivity{
 
 //                    Bitmap bitmap = downloadImage(bean.getImageUrl());
                     datas.add(bean);
+                    */
                 }
+/*
 
                 listView.setAdapter(adapter);
                 for (TestBean adv : datas) {
                     adapter.add(adv);
                 }
                 adapter.notifyDataSetChanged();
+*/
 
             }
             catch (JSONException e)

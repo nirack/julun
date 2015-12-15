@@ -1,7 +1,5 @@
 package com.julun.vehicle.activities.examples;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 @ContentLayout(R.layout.activity_recycler_view_example)
 public class RecyclerViewExampleActivity extends BaseActivity {

@@ -1,9 +1,6 @@
 package com.julun.vehicle.activities.examples;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 
 import com.android.volley.VolleyError;
 import com.julun.annotations.views.AfterInitView;
@@ -12,7 +9,6 @@ import com.julun.container.uicontroller.BaseActivity;
 import com.julun.datas.PageResult;
 import com.julun.datas.beans.Product;
 import com.julun.utils.ApplicationUtils;
-import com.julun.utils.ToastHelper;
 import com.julun.vehicle.R;
 import com.julun.vehicle.listeners.examples.refresh.RefreshLoadListenerForTestActivity;
 import com.julun.volley.VolleyRequestCallback;

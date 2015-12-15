@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
-import com.julun.datas.PageResult;
 import com.julun.datas.beans.Product;
+import com.julun.datas.PageResult;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.event.events.FailureEvent;
 import com.julun.utils.ApplicationUtils;
