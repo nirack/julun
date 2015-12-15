@@ -65,6 +65,8 @@
         <activity android:name=".activities.examples.RecyclerViewExampleActivity" />
         <activity android:name=".activities.scan.QRCodeActivity" android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".activities.scan.CaptureResultActivity" android:theme="@style/AppThemeNoActionBar"></activity>
+        <activity android:name=".activities.examples.BuyListViewExampleActivity"/>
+        <activity android:name=".activities.examples.BuyRecyclerExampleActivity"/>
     </application>
 
 </manifest>

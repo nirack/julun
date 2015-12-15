@@ -13,6 +13,7 @@ import com.julun.annotations.views.ContentLayout;
 import com.julun.container.uicontroller.BaseActivity;
 import com.julun.container.uicontroller.BaseFragment;
 import com.julun.vehicle.R;
+import com.julun.vehicle.activities.examples.BuyListViewExampleActivity;
 import com.julun.vehicle.activities.examples.ListViewExampleActivity;
 import com.julun.vehicle.activities.examples.RecyclerViewExampleActivity;
 import com.julun.vehicle.fragments.CargoFragment;
@@ -123,6 +124,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.show_rec_view:
                 jumpActivity(RecyclerViewExampleActivity.class);
+                break;
+            case R.id.show_buy_list_view:
+                jumpActivity(BuyListViewExampleActivity.class);
                 break;
         }
         return true;

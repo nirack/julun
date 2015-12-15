@@ -14,5 +14,10 @@
         android:orderInCategory="100"
         android:title="ListView例子"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/show_buy_list_view"
+        android:orderInCategory="100"
+        android:title="购物列表"
+        />
 
 </menu>
