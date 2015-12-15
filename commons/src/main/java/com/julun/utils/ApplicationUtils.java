@@ -33,15 +33,20 @@ public class ApplicationUtils {
     //全局的  volley 请求队列
     public static RequestQueue requestQueue;
     private static String deviceId;
+/*
 
     private static final String ipAddress = "120.26.67.181";
     private static final String webAppName = "sales";
     private static final String portNumber = "8088";
+*/
 
 //    private static final String ipAddress = "192.168.1.128";
 //        private static final String ipAddress = "192.168.2.105";
+
+    private static final String ipAddress = "192.168.1.117";
 //    private static final String webAppName = "sales";
-//    private static final String portNumber = "80";
+    private static final String webAppName = "";
+    private static final String portNumber = "80";
 
     public static final String BASE_URL_PREFIX = "http://" + ipAddress + ":" + portNumber + "/" + webAppName + "/";
 

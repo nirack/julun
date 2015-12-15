@@ -3,6 +3,7 @@ package com.julun.container;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.julun.container.uicontroller.BaseActivity;
 import com.julun.container.uicontroller.BaseFragment;
 import com.julun.event.EventBusCacher;
 import com.julun.event.EventBusUtils;
+import com.julun.event.processor.EventRegisterCenter;
 import com.julun.exceptions.ConfigException;
 import com.julun.utils.CollectionHelper;
 
@@ -45,33 +47,12 @@ public class BaseContainerInitializer {
     }
 
     /**
-     * 初始化activity.
-     *
-     * @param activity
-     * @param savedInstanceState
-     */
-    public static void initActivity(BaseActivity activity, Bundle savedInstanceState) {
-        ClassInfo store = ReflectUtil.getClassStore(activity);
-        ContentLayout annotation = store.getAnnotation(ContentLayout.class);
-        if (null == annotation) {
-            throw new RuntimeException(new ConfigException("没有配置layout的注解") );
-        }
-        activity.setContentView(annotation.value());
-        ButterKnife.bind(activity);
-        Log.d(activity.getClass().getName(), "onCreate() called with: " + "");
-
-
-        //注册EventBus  这两个方法有先后顺序...先给容器注册,然后后面初始化 服务类的时候,需要用到容器里的EventBus
-        registerEventBus(activity);
-        //初始化业务服务类对象
-        initBusiServiceObjects(activity, store);
-
-        //调用初始化之后的方法...
-        callOnInitViews(activity, store);
-    }
-
-    /**
      * 视图初始化完毕之后.
+     *
+     * 不支持多个 AfterInitView 注解方法的原因是涉及到调用顺序.
+     * 即使给 这个 Annotation增加个顺序的属性,如果两个方法都填写一样的顺序标记(数字字符串无所谓),仍然无法判定要先执行哪个.
+     * 万一有顺序要求又碰巧调运的顺序反了,就是个大坑.
+     * 这里注释坐下备注,以备以后有疑问的时候能明白为什么要这么做.
      *
      * @param invoker
      * @param store
@@ -96,13 +77,11 @@ public class BaseContainerInitializer {
 
     }
 
-    private static void registerEventBus(UIContainerEvnProvider invoker) {
-        EventBus bus = EventBusUtils.getNonDefaultEventBus();
-        EventBusCacher.getEventBus(invoker,EventBusCacher.BUS_TYPE_MAIN);
-        invoker.setMainEventBus(bus);
-        bus.register(invoker);
-    }
-
+    /**
+     * 注册controller里用到的业务类.
+     * @param invoker
+     * @param store
+     */
     private static void initBusiServiceObjects(UIContainerEvnProvider invoker, ClassInfo store) {
         List<Field> fields = store.getFieldsWithAnnotation(BusinessBean.class);
         Class rawClass = store.getRawClass();
@@ -122,12 +101,36 @@ public class BaseContainerInitializer {
             constructor.setAccessible(true);
             try {
                 BusiBaseService val = (BusiBaseService) (needContext ? constructor.newInstance(invoker.getContextActivity()):constructor.newInstance());
-                val.setMainEventBus4Post(invoker.getMainEventBus());
-                field.set(invoker,val);
+
+                EventBus eventBus = EventBusUtils.getNonDefaultEventBus();
+
+                EventRegisterCenter.register(invoker,val);
+
+                val.setMainEventBus4Post(eventBus);
+                field.set(invoker, val);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+
+    /**
+     * 初始化activity.
+     *
+     * @param activity
+     * @param savedInstanceState
+     */
+    public static void initActivity(BaseActivity activity, Bundle savedInstanceState) {
+        ClassInfo store = ReflectUtil.getClassStore(activity);
+        ContentLayout annotation = getContentLayout(store);
+
+        activity.setContentView(annotation.value());
+        ButterKnife.bind(activity);
+        Log.d(activity.getClass().getName(), "onCreate() called with: " + "");
+        afterBindViews(activity, store);
+
+
     }
 
     /**
@@ -138,21 +141,33 @@ public class BaseContainerInitializer {
      * @param savedInstanceState @return
      */
     public static View initFragment(BaseFragment fragment, ViewGroup container, Bundle savedInstanceState) {
+
         ClassInfo store = ReflectUtil.getClassStore(fragment);
+        ContentLayout annotation = getContentLayout(store);
+
+        View view = fragment.getLayoutInflater().inflate(annotation.value(), container, false);
+        ButterKnife.bind(fragment, view);
+
+        afterBindViews(fragment,store);
+        return view;
+    }
+
+    @NonNull
+    private static ContentLayout getContentLayout(ClassInfo store) {
         ContentLayout annotation = store.getAnnotation(ContentLayout.class);
         if (null == annotation) {
             throw new IllegalArgumentException("没有配置layout的注解");
         }
-        View view = fragment.getLayoutInflater().inflate(annotation.value(), container, false);
-        ButterKnife.bind(fragment, view);
+        return annotation;
+    }
 
-        //注册EventBus  这两个方法有先后顺序...先给容器注册,然后后面初始化 服务类的时候,需要用到容器里的EventBus
-        registerEventBus(fragment);
+
+    private static void afterBindViews(UIContainerEvnProvider container, ClassInfo store) {
         //初始化业务服务类对象
-        initBusiServiceObjects(fragment, store);
+        initBusiServiceObjects(container, store);
 
-        callOnInitViews(fragment, store);
-        return view;
+        //调用初始化之后的方法...
+        callOnInitViews(container, store);
     }
 
 }

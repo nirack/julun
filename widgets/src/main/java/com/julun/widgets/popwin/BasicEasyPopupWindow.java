@@ -16,7 +16,7 @@ import com.julun.widgets.utils.LayoutManagerHelper;
 import java.lang.ref.WeakReference;
 
 /**
- * 全屏，半透明，的popwin.
+ * 透明，的popwin.
  */
 public class BasicEasyPopupWindow extends PopupWindow {
 
@@ -33,7 +33,7 @@ public class BasicEasyPopupWindow extends PopupWindow {
         setDismissable();
     }
 
-    public void setDismissable(){
+    private void setDismissable(){
         this.setTouchable(true);
         this.setOutsideTouchable(true);
         this.setTouchInterceptor(new View.OnTouchListener() {
@@ -42,7 +42,11 @@ public class BasicEasyPopupWindow extends PopupWindow {
                 return false;// 这里如果返回true的话，touch事件将被拦截 ， 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
             }
         });
-        this.setBackgroundDrawable( cxt.get().getResources().getDrawable(R.color.main_bg) );
+        //如果不设置背景,无法dismiss
+        Drawable drawable = cxt.get().getResources().getDrawable(R.color.lightyellow);
+        int alpha = 180;//半透明
+        drawable.setAlpha(alpha);
+        this.setBackgroundDrawable(drawable);
     }
 
     public BasicEasyPopupWindow width(int width) {

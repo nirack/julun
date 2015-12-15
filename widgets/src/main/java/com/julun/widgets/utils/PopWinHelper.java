@@ -2,6 +2,7 @@ package com.julun.widgets.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Layout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,9 @@ public class PopWinHelper {
     }
 
     public static LoadProgressWin getLoadingPopWin(@NonNull Context cxt,View contentView,int height){
+        if(height == 0){
+            height = ViewGroup.LayoutParams.MATCH_PARENT;
+        }
         LoadProgressWin win = new LoadProgressWin(cxt,contentView);
         win.height(height);
         return win;

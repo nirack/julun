@@ -25,6 +25,7 @@ public class ProductService extends BusiBaseService {
         Map<String, String> param = new HashMap<>();
 
         String url = ApplicationUtils.BASE_URL_PREFIX + "prod/query";
+
         VolleyRequestCallback<PageResult<Product>> callback = new VolleyRequestCallback<PageResult<Product>>(getContext()) {
             @Override
             public void doOnSuccess(PageResult<Product> response) {
@@ -32,11 +33,8 @@ public class ProductService extends BusiBaseService {
                 if (null == response) {
                     return;
                 }
-
                 DataChangeEvent<PageResult<Product>> event = new DataChangeEvent<PageResult<Product>>(response);
                 dataLoadedAndTellUiThread(event);
-
-
             }
 
             @Override

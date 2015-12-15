@@ -3,9 +3,16 @@ package com.julun.business;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.VolleyError;
+import com.julun.datas.PageResult;
+import com.julun.datas.beans.Product;
 import com.julun.event.events.BaseSimpleEvent;
+import com.julun.event.events.DataChangeEvent;
+import com.julun.volley.VolleyRequestCallback;
+import com.julun.volley.utils.Requests;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import de.greenrobot.event.EventBus;
 
