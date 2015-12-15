@@ -1,8 +1,14 @@
 package com.julun.vehicle.activities.examples;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -98,7 +104,7 @@ public class PopWinTestActivity extends BaseActivity implements RefreshableView{
                 break;
             case R.id.stop_anmi:
                 if (loadingPopWin != null) {
-                    loadingPopWin.stop();
+//                    loadingPopWin.stop();
                 }
                 break;
         }
@@ -106,9 +112,19 @@ public class PopWinTestActivity extends BaseActivity implements RefreshableView{
     }
 
     private void showLoading(final View view) {
-        loadingPopWin = PopWinHelper.getLoadingPopWin(this, new FrameLayout(this), 200);
+        FrameLayout contentView = new FrameLayout(this);
+
+        View inflate = LayoutInflater.from(this).inflate(R.layout.refresh_pop_win_content, null);
+
+        loadingPopWin = PopWinHelper.getLoadingPopWin(this, inflate, 0);
+
         loadingPopWin.showAsDropDown(stop_anmi);
+//        loadingPopWin.getBackground().setAlpha(10);
         loadingPopWin.start();
+//        animation.setDuration(1000);
+//        inflate.startAnimation(animation);
+
+
 //        win.setBackgroundDrawable(getResources().getDrawable(R.drawable.app_title_bg_shape));//背景如果不设置，则弹出框不会 dismiss
 
     }

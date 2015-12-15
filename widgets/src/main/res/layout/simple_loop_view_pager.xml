@@ -11,7 +11,7 @@
     <GridView
         android:id="@+id/indicator_grid"
         android:layout_gravity="bottom"
-        android:background="@color/white"
+        android:background="@color/wheat"
         android:layout_width="match_parent"
         android:layout_height="5dp"></GridView>
 

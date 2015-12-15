@@ -4,7 +4,7 @@ import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 
 /**
- * Created by Administrator on 2015-11-23.
+ * 事件订阅者.
  */
 public interface EventSubscriber {
     /**

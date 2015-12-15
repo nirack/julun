@@ -243,7 +243,7 @@ public class SimpleLoopViewPager extends FrameLayout {
         };
 
         indicator = new SimpleGridViewIndicator(context.get());
-        indicator.setBackgroundResource(R.color.white);
+        indicator.setBackgroundResource(R.color.ivory);
         FrameLayout.LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 10);
         layoutParams.gravity = Gravity.BOTTOM;
         indicator.setLayoutParams(layoutParams);
