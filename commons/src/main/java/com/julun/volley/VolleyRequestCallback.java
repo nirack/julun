@@ -30,9 +30,9 @@ import java.lang.reflect.Type;
  * @param <T>
  */
 public abstract class VolleyRequestCallback<T>{
-    private final Type type;
+//    private final Type type;
     protected WeakReference<Context> context;
-    protected Response.Listener<String> successListener;
+    protected Response.Listener<T> successListener;
 
     protected Response.ErrorListener errorListener;
 
@@ -41,12 +41,12 @@ public abstract class VolleyRequestCallback<T>{
     }
 
     public VolleyRequestCallback(WeakReference<Context> context) {
-        this.type = getSuperclassTypeParameter(getClass());
+//        this.type = getSuperclassTypeParameter(getClass());
         this.context = context;
-        this.successListener = new Response.Listener<String>() {
+        this.successListener = new Response.Listener<T>() {
             @Override
-            public void onResponse(String json) {
-                T response = JsonHelper.fromJson(json,type);
+            public void onResponse(T response) {
+//                T response = JsonHelper.fromJson(json,type);
                 doOnSuccess(response);
             }
         };
@@ -89,7 +89,7 @@ public abstract class VolleyRequestCallback<T>{
         return context;
     }
 
-    public Response.Listener<String> getSuccessListener() {
+    public Response.Listener<T> getSuccessListener() {
         return successListener;
     }
 

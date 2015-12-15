@@ -40,7 +40,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeNoActionBar">
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="6clWrlqeAWwrjca09tx4cRez" />
@@ -63,9 +63,8 @@
         <activity android:name=".activities.scan.CaptureResultActivity" />
         <activity android:name=".activities.search.SearchProdActivity" />
         <activity android:name=".activities.search.SearchResultActivity" />
-        <activity android:name=".activities.examples.PopWinTestActivity" />
-        <activity android:name=".activities.examples.RefreshViewTestActivity" />
-        <activity android:name=".activities.examples.RefreshViewTest2Activity"></activity>
+        <activity android:name=".activities.examples.PopWinTestActivity"></activity>
+        <activity android:name=".activities.login.LoginActivity"></activity>
     </application>
 
 </manifest>

@@ -21,4 +21,11 @@
     <string name="scan_retry">二维码扫描出错啦,请重新扫描</string>
     <string name="scan_title">扫一扫</string>
 
+    <string name="login">登陆</string>
+    <string name="signup">注册</string>
+    <string name="phone_login">手机号快捷登陆</string>
+    <string name="get_back_password">找回密码</string>
+    
+    <string name="termAgreed">我已阅读并同意<a href="http://www.baidu.com/">聚轮用户协定</a></string>
+
 </resources>

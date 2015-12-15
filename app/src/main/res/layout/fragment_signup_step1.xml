@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:divider="@drawable/divider_horizontal"
+        android:layout_marginTop="16dp"
+        android:showDividers="beginning|middle">
+        <EditText
+            android:id="@+id/mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            style="@style/EditText"
+            android:hint="请输入手机号"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/get_security_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:minHeight="48dp"
+        android:textSize="18sp"
+        android:text="发送验证码"/>
+    <CheckBox
+        android:id="@+id/term"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:checked="true"
+        android:checkMark="?android:textCheckMark"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/termAgreed"/>
+
+</LinearLayout>

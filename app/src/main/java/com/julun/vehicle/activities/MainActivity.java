@@ -3,7 +3,6 @@ package com.julun.vehicle.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Build;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioButton;
@@ -17,8 +16,7 @@ import com.julun.vehicle.R;
 import com.julun.vehicle.activities.examples.ListViewExampleActivity;
 import com.julun.vehicle.activities.examples.PopWinTestActivity;
 import com.julun.vehicle.activities.examples.RecyclerViewExampleActivity;
-import com.julun.vehicle.activities.examples.RefreshViewTest2Activity;
-import com.julun.vehicle.activities.examples.RefreshViewTestActivity;
+import com.julun.vehicle.activities.login.LoginActivity;
 import com.julun.vehicle.fragments.CargoFragment;
 import com.julun.vehicle.fragments.HomePageFragment;
 import com.julun.vehicle.fragments.ShoppingCartFragment;
@@ -53,7 +51,6 @@ public class MainActivity extends BaseActivity {
     @AfterInitView
     public void afterInitViews() {
         // TODO: fragment直接new，如果遇到问题 再改作其他的方式
-        Log.d(LOG_TAG, "afterInitViews() called with: " + "");
         homePageFragment = new HomePageFragment();
         userInfoFragment = new UserInfoFragment();
         shoppingCartFragment = new ShoppingCartFragment();
@@ -92,6 +89,7 @@ public class MainActivity extends BaseActivity {
                     frag = userInfoFragment;
                 }
                 drawAbleResId = checked ? R.drawable.ic_account_circle_green_a700_24dp : R.drawable.ic_account_circle_black_24dp;
+                jumpActivity(LoginActivity.class);
                 break;
         }
 
@@ -132,14 +130,6 @@ public class MainActivity extends BaseActivity {
             case R.id.show_pop_win:
                 jumpActivity(PopWinTestActivity.class);
                 break;
-            case R.id.refresh_test:
-                jumpActivity(RefreshViewTestActivity.class);
-                break;
-
-            case R.id.refresh_test2:
-                jumpActivity(RefreshViewTest2Activity.class);
-                break;
-
         }
         return true;
     }

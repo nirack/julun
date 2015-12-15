@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.VolleyError;
 import com.julun.datas.beans.County;
 import com.julun.event.events.DataChangeEvent;
+import com.julun.event.events.FailureEvent;
 import com.julun.utils.ApplicationUtils;
 import com.julun.volley.VolleyRequestCallback;
 import com.julun.volley.utils.Requests;
@@ -33,9 +34,7 @@ public class IndexService extends BusiBaseService {
 
             @Override
             public void doOnFailure(VolleyError error) {
-                DataChangeEvent<List<County>> event = new DataChangeEvent<>(null);
-                event.setSuccess(false);
-                event.setExtraMessage(error.toString());
+                FailureEvent event = new FailureEvent(error.toString());
                 dataLoadedAndTellUiThread(event);
             }
         };

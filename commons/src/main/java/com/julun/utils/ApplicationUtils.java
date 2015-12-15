@@ -15,9 +15,12 @@ import android.os.Parcelable;
 import android.telephony.TelephonyManager;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.julun.commons.R;
-import com.julun.utils.sp.SettintUtil;
+import com.julun.commons.images.BitMapCache;
+import com.julun.constants.PreferencesConstans;
+import com.julun.constants.SystemConstants;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -32,6 +35,7 @@ public class ApplicationUtils {
 
     //全局的  volley 请求队列
     public static RequestQueue requestQueue;
+    public static ImageLoader imageLoader;
     private static String deviceId;
 /*
 
@@ -174,7 +178,7 @@ public class ApplicationUtils {
     public static boolean isNewVersion() {
         Float oldversion = null;
         try {
-            String versionNumber = SettintUtil.getVersionNumber();
+            String versionNumber = SharedPreferencesUtils.getSharePreferences().getString(PreferencesConstans.VERSION_NUMBER, "0");
             oldversion = Float.parseFloat(versionNumber);
         } catch (Exception e) {
             return true;
@@ -205,7 +209,8 @@ public class ApplicationUtils {
         if(isNewVersion()){
             ApplicationUtils.deleteShortCut(appName);
             createShorts(appName, ic_launcher, cls);
-            SettintUtil.saveVersionNumber(getAppVersionName(application.get()));
+            SharedPreferencesUtils.commitString(PreferencesConstans.VERSION_NUMBER,
+                    getAppVersionName(application.get()));
         }
 
     }
@@ -217,6 +222,7 @@ public class ApplicationUtils {
         deviceId = tm.getDeviceId();
         //初始化Volley的请求队列.
         requestQueue = Volley.newRequestQueue(app);
+        imageLoader = new ImageLoader(requestQueue, new BitMapCache());
         //是否有相机
         hasCamera = app.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
         APP_BASE_EXTERNAL_STORAGE_PATH = EXTERNAL_STORAGE_PATH + File.separator + application.get().getPackageName() + File.separator;
@@ -229,7 +235,15 @@ public class ApplicationUtils {
         }
     }
 
+    public static ImageLoader getGlobeImageLoader() {
+        return imageLoader;
+    }
+
     public static RequestQueue getGlobeRequestQueue() {
         return requestQueue;
+    }
+
+    public static Application getGolbeApplication() {
+        return application.get();
     }
 }
