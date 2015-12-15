@@ -85,6 +85,11 @@ public class BaseContainerInitializer {
     private static void initBusiServiceObjects(UIContainerEvnProvider invoker, ClassInfo store) {
         List<Field> fields = store.getFieldsWithAnnotation(BusinessBean.class);
         Class rawClass = store.getRawClass();
+
+        EventBus bus = EventBusUtils.getNonDefaultEventBus();
+        invoker.setMainEventBus(bus);
+        bus.register(invoker);
+
         for(Field field:fields){
             field.setAccessible(true);
             BusinessBean anno = field.getAnnotation(BusinessBean.class);
@@ -101,12 +106,7 @@ public class BaseContainerInitializer {
             constructor.setAccessible(true);
             try {
                 BusiBaseService val = (BusiBaseService) (needContext ? constructor.newInstance(invoker.getContextActivity()):constructor.newInstance());
-
-                EventBus eventBus = EventBusUtils.getNonDefaultEventBus();
-
-                EventRegisterCenter.register(invoker,val);
-
-                val.setMainEventBus4Post(eventBus);
+                val.setMainEventBus4Post(bus);
                 field.set(invoker, val);
             } catch (Exception e) {
                 throw new RuntimeException(e);
