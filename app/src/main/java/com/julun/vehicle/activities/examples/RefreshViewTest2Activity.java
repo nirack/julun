@@ -7,7 +7,7 @@ import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.container.uicontroller.BaseActivity;
 import com.julun.datas.PageResult;
-import com.julun.datas.beans.Product;
+import com.julun.business.beans.Product;
 import com.julun.utils.ApplicationUtils;
 import com.julun.vehicle.R;
 import com.julun.vehicle.listeners.examples.refresh.RefreshLoadListenerForTestActivity;

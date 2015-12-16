@@ -8,20 +8,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.julun.commons.reflect.ReflectUtil;
-import com.julun.datas.beans.Adv;
+import com.julun.business.beans.Adv;
 import com.julun.utils.ApplicationUtils;
 import com.julun.utils.DensityUtils;
-import com.julun.utils.JsonHelper;
 import com.julun.utils.ScreenUtils;
-import com.julun.utils.ToastHelper;
 import com.julun.vehicle.R;
 import com.julun.volley.VolleyRequestCallback;
 import com.julun.volley.utils.Requests;
 import com.julun.widgets.viewpager.SimpleLoopViewPager;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 

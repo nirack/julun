@@ -1,4 +1,4 @@
-package com.julun.datas.beans;
+package com.julun.business.beans;
 
 public class Product {
     private Integer id;

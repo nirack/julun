@@ -1,4 +1,4 @@
-package com.julun.datas.beans;
+package com.julun.business.beans;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.android.volley.VolleyError;
 import com.julun.business.BusiBaseService;
-import com.julun.datas.beans.County;
+import com.julun.business.beans.County;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.event.events.FailureEvent;
 import com.julun.utils.ApplicationUtils;

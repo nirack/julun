@@ -28,7 +28,7 @@ import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.business.service.IndexService;
 import com.julun.container.uicontroller.BaseFragment;
-import com.julun.datas.beans.County;
+import com.julun.business.beans.County;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.utils.CollectionHelper;
 import com.julun.utils.ToastHelper;
