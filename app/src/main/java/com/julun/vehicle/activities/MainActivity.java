@@ -17,6 +17,8 @@ import com.julun.vehicle.activities.examples.BuyListViewExampleActivity;
 import com.julun.vehicle.activities.examples.ListViewExampleActivity;
 import com.julun.vehicle.activities.examples.PopWinTestActivity;
 import com.julun.vehicle.activities.examples.RecyclerViewExampleActivity;
+import com.julun.vehicle.activities.examples.RefreshViewTest2Activity;
+import com.julun.vehicle.activities.examples.RefreshViewTestActivity;
 import com.julun.vehicle.activities.login.LoginActivity;
 import com.julun.vehicle.fragments.CargoFragment;
 import com.julun.vehicle.fragments.HomePageFragment;
@@ -133,6 +135,13 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.show_buy_list_view:
                 jumpActivity(BuyListViewExampleActivity.class);
+                break;
+            case R.id.refresh_test:
+                jumpActivity(RefreshViewTestActivity.class);
+                break;
+
+            case R.id.refresh_test2:
+                jumpActivity(RefreshViewTest2Activity.class);
                 break;
         }
         return true;

@@ -19,7 +19,7 @@ public final class SharedPreferencesUtils {
         if(preferences == null) {
             synchronized (SharedPreferences.class) {
                 if (preferences == null) {
-                    preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationUtils.getGolbeApplication());
+                    preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationUtils.getGlobalApplication());
                 }
             }
         }
