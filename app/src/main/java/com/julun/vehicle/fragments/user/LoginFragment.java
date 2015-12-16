@@ -9,22 +9,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -37,7 +31,7 @@ import android.widget.TextView;
 import com.julun.annotations.business.BusinessBean;
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
-import com.julun.business.LoginService;
+import com.julun.business.service.LoginService;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.utils.StringHelper;
 import com.julun.vehicle.R;
@@ -47,10 +41,8 @@ import com.julun.widgets.adapters.listview.BaseListViewAdapter;
 import com.julun.widgets.viewholder.listview.ViewHolder;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import butterknife.OnTouch;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
 
@@ -97,67 +89,6 @@ public class LoginFragment extends UserBackFragment {
 
     private static final String FRAGMENT_PROGRESS_DIALOG = "progress_dialog";
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated");
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        Log.d(TAG, "onAttach");
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        Log.d(TAG, "onDetach");
-        super.onDetach();
-    }
-
-    @Override
-    public void onResume() {
-        Log.d(TAG, "onResume");
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        Log.d(TAG, "onPause");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.d(TAG, "onStop");
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        Log.d(TAG, "onDestroyView");
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.d(TAG, "onDestroy");
-        super.onDestroy();
-    }
-
     @AfterInitView
     public void initView() {
         Log.d(TAG, "initView");
@@ -169,9 +100,8 @@ public class LoginFragment extends UserBackFragment {
             public void run() {
                 ((InputMethodManager) userName.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(userName, 0);
             }
-        }, 1000L);
+        }, 500L);
 
-        //判断是否有第三方账号登陆
         adapter = new BaseListViewAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line) {
 
             @Override
@@ -277,7 +207,7 @@ public class LoginFragment extends UserBackFragment {
                 break;
         }
 
-        transaction.add(R.id.fragmentContainer, fragment, fragmentTag).addToBackStack(null).commit();
+        transaction.replace(R.id.fragmentContainer, fragment, fragmentTag).addToBackStack(null).commit();
     }
 
     /**

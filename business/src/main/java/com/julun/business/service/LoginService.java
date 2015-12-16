@@ -1,10 +1,11 @@
-package com.julun.business;
+package com.julun.business.service;
 
 import android.content.Context;
 import android.os.Handler;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.julun.business.BusiBaseService;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.event.events.FailureEvent;
 import com.julun.utils.ApplicationUtils;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * Created by danjp on 2015/12/9.
  */
-public class LoginService extends BusiBaseService{
+public class LoginService extends BusiBaseService {
 
     /**
      * 请求后台登陆
@@ -77,6 +78,36 @@ public class LoginService extends BusiBaseService{
             }
         };
         Requests.postByte(url, null, callback, map);
+    }
+
+    /**
+     * 根据用户ID检测用户登陆是否过期
+     * @param userId
+     * @return
+     */
+    public void checkLogin(String userId) {
+        String url = ApplicationUtils.BASE_URL_PREFIX + "check_login";
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("userId", userId);
+
+        VolleyRequestCallback<String> callback = new VolleyRequestCallback<String>(getContext()) {
+            @Override
+            public void doOnSuccess(String response) {
+                DataChangeEvent<String> event = new DataChangeEvent<String>(response);
+                event.setCode(1);
+                dataLoadedAndTellUiThread(event);
+            }
+
+            @Override
+            public void doOnFailure(VolleyError error) {
+                super.doOnFailure(error);
+            }
+        };
+    }
+
+    //第三方授权登陆
+    public void authLogin() {
+
     }
 
 }

@@ -1,9 +1,10 @@
-package com.julun.business;
+package com.julun.business.service;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
+import com.julun.business.BusiBaseService;
 import com.julun.datas.beans.Product;
 import com.julun.datas.PageResult;
 import com.julun.event.events.DataChangeEvent;
