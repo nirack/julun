@@ -2,6 +2,7 @@ package com.julun.vehicle.fragments.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import butterknife.OnClick;
  */
 @ContentLayout(R.layout.fragment_user_header)
 public class UserMainHeaderFragment extends BaseFragment {
+    private static final String TAG = "UserMainHeaderFragment";
 
     @Bind(R.id.not_login_container)
     LinearLayout notLoginContainer;
@@ -65,10 +67,12 @@ public class UserMainHeaderFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.not_login_container:
                 //未登录，跳转到登陆页面
+                Log.d(TAG, "未登录");
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 break;
             case R.id.logined_container:
                 //已登录，跳转到显示个人信息页面
+                Log.d(TAG, "已登录");
                 startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 break;
         }
