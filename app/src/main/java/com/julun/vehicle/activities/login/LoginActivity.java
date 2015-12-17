@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity implements LoginFragment.LoginCa
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Fragment fragment = getFragmentManager().findFragmentByTag(FRAGMENT_LOGIN_TAG);
         if(savedInstanceState == null) {
-            transaction.add(R.id.fragmentContainer, LoginFragment.newInstance(""), FRAGMENT_LOGIN_TAG).commit();
+            transaction.add(R.id.fragment_login_container, LoginFragment.newInstance(""), FRAGMENT_LOGIN_TAG).commit();
         }else{
             transaction.show(fragment);
         }
@@ -109,6 +109,6 @@ public class LoginActivity extends BaseActivity implements LoginFragment.LoginCa
                 break;
         }
         //都是从loginFragment中切换到其他fragment，保存loginFragment实例，销毁其他fragment
-        transaction.add(R.id.fragmentContainer, fragment, fragmentTag).addToBackStack(null).commit();
+        transaction.add(R.id.fragment_login_container, fragment, fragmentTag).addToBackStack(null).commit();
     }
 }

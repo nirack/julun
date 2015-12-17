@@ -17,6 +17,7 @@ import com.julun.container.uicontroller.BaseFragment;
 import com.julun.utils.SharedPreferencesUtils;
 import com.julun.vehicle.R;
 import com.julun.vehicle.activities.login.LoginActivity;
+import com.julun.vehicle.activities.user.UserInfoActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,6 +69,7 @@ public class UserMainHeaderFragment extends BaseFragment {
                 break;
             case R.id.logined_container:
                 //已登录，跳转到显示个人信息页面
+                startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 break;
         }
     }
