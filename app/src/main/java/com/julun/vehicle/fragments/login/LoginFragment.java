@@ -1,10 +1,7 @@
-package com.julun.vehicle.fragments.user;
+package com.julun.vehicle.fragments.login;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,15 +9,15 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,13 +29,14 @@ import com.julun.annotations.business.BusinessBean;
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.business.service.LoginService;
+import com.julun.container.uicontroller.BaseFragment;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.utils.StringHelper;
 import com.julun.vehicle.R;
 import com.julun.vehicle.activities.MainActivity;
+import com.julun.vehicle.activities.login.LoginActivity;
 import com.julun.vehicle.dialogs.ProgressDialogFragment;
 import com.julun.widgets.adapters.listview.BaseListViewAdapter;
-import com.julun.widgets.viewholder.listview.ViewHolder;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -48,15 +46,16 @@ import de.greenrobot.event.ThreadMode;
 
 /**
  * Created by danjp on 2015/12/8.
+ * 登录
  */
 @ContentLayout(R.layout.fragment_login)
-public class LoginFragment extends UserBackFragment {
-    private static final String TAG = "LoginFragment";
+public class LoginFragment extends BaseFragment {
+    protected String TAG = "LoginFragment";
 
     @Bind(R.id.username)
-    AutoCompleteTextView userName;
+    EditText userName;
     @Bind(R.id.password)
-    AutoCompleteTextView password;
+    EditText password;
     @Bind(R.id.username_img)
     ImageView userNameImg;
     @Bind(R.id.password_img)
@@ -89,6 +88,16 @@ public class LoginFragment extends UserBackFragment {
 
     private static final String FRAGMENT_PROGRESS_DIALOG = "progress_dialog";
 
+    public static LoginFragment newInstance(String str) {
+        LoginFragment fragment = new LoginFragment();
+        if(!TextUtils.isEmpty(str)){
+            Bundle bundle = new Bundle();
+            bundle.putString("aa", str);
+            fragment.setArguments(bundle);
+        }
+        return fragment;
+    }
+
     @AfterInitView
     public void initView() {
         Log.d(TAG, "initView");
@@ -102,15 +111,6 @@ public class LoginFragment extends UserBackFragment {
             }
         }, 500L);
 
-        adapter = new BaseListViewAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line) {
-
-            @Override
-            public void convert(ViewHolder vh, String s) {
-
-            }
-        };
-
-        userName.setAdapter(adapter);
         userNameImg.setVisibility(View.INVISIBLE);
         passwordImg.setVisibility(View.INVISIBLE);
         captchaZone.setVisibility(View.GONE);  //默认不出来验证码
@@ -130,6 +130,12 @@ public class LoginFragment extends UserBackFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+
+    /*@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_login, menu);
@@ -144,7 +150,7 @@ public class LoginFragment extends UserBackFragment {
             jumpToMainActivity();
         }
         return true;
-    }
+    }*/
 
     @OnTextChanged(value = R.id.username, callback = OnTextChanged.Callback.TEXT_CHANGED)
     public void userNameTextChanged() {
@@ -172,10 +178,10 @@ public class LoginFragment extends UserBackFragment {
                 login();
                 break;
             case R.id.retrieve_password:
-                updateFragment(FRAGMENT_GET_BACK_PASSWORD_TAG);
+                updateFragment(LoginActivity.FRAGMENT_GET_BACK_PASSWORD_TAG);
                 break;
             case R.id.dynamic_login:
-                updateFragment(FRAGMENT_PHONE_SIGNIN_TAG);
+                updateFragment(LoginActivity.FRAGMENT_PHONE_SIGNIN_TAG);
                 break;
             case R.id.change_captcha:
                 changeCaptcha();
@@ -189,12 +195,11 @@ public class LoginFragment extends UserBackFragment {
      * @param fragmentTag
      */
     private void updateFragment(String fragmentTag) {
-        FragmentManager fm = getFragmentManager();
+        /*FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         Fragment fragment = fm.findFragmentByTag(fragmentTag);
         //隐藏当前登陆fragment，不希望重绘视图，保存用户输入的登录名密码
         transaction.hide(this);
-
         switch (fragmentTag) {
             case FRAGMENT_SIGNUP_TAG:
                 fragment = new SignupFragment();
@@ -206,8 +211,8 @@ public class LoginFragment extends UserBackFragment {
                 fragment = new GetBackPasswordFragment();
                 break;
         }
-
-        transaction.replace(R.id.fragmentContainer, fragment, fragmentTag).addToBackStack(null).commit();
+        transaction.add(R.id.fragmentContainer, fragment, fragmentTag).addToBackStack(null).commit();*/
+        callback.showFragment(fragmentTag);
     }
 
     /**
@@ -307,5 +312,17 @@ public class LoginFragment extends UserBackFragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onAttach(Context context) {
+        callback = (LoginCallBack) context;
+        super.onAttach(context);
+    }
+
+    public interface LoginCallBack {
+        public void showFragment(String fragmentTag);
+    }
+
+    private LoginCallBack callback;
 
 }

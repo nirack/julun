@@ -39,6 +39,7 @@ public class LoginService extends BusiBaseService {
             public void doOnSuccess(String response) {
                 DataChangeEvent<String> event = new DataChangeEvent<String>(response);
                 dataLoadedAndTellUiThread(event);
+//                UserInfoManager.saveUserInfo();
             }
 
             @Override

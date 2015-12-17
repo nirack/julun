@@ -1,4 +1,4 @@
-package com.julun.vehicle.fragments.user;
+package com.julun.vehicle.fragments.login;
 
 import android.util.Log;
 
@@ -12,13 +12,12 @@ import com.julun.vehicle.R;
  * 找回密码
  */
 @ContentLayout(R.layout.fragment_get_back_password)
-public class GetBackPasswordFragment extends UserBackFragment {
+public class GetBackPasswordFragment extends BaseFragment {
 
     private static final String TAG = "GetBackPasswordFragment";
 
     @AfterInitView
     public void initView() {
         Log.d(TAG, "initView");
-        getActivity().setTitle(R.string.get_back_password);
     }
 }

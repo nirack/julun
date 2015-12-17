@@ -1,4 +1,4 @@
-package com.julun.vehicle.fragments.user;
+package com.julun.vehicle.fragments.login;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

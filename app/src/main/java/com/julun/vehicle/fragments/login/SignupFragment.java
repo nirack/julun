@@ -1,16 +1,10 @@
-package com.julun.vehicle.fragments.user;
+package com.julun.vehicle.fragments.login;
 
-import android.app.FragmentManager;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,21 +16,19 @@ import android.widget.RadioGroup;
 
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
+import com.julun.container.uicontroller.BaseFragment;
 import com.julun.vehicle.R;
 
-import java.sql.Time;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by danjp on 2015/12/10.
  * 注册
  */
 @ContentLayout(R.layout.fragment_signup)
-public class SignupFragment extends UserBackFragment implements View.OnClickListener {
+public class SignupFragment extends BaseFragment implements View.OnClickListener {
 
-    private static final String TAG = "SignupFragment";
+    protected String TAG = "SignupFragment";
     @Bind(R.id.step1)
     RadioButton step1;
     @Bind(R.id.step2)
@@ -63,7 +55,6 @@ public class SignupFragment extends UserBackFragment implements View.OnClickList
     @AfterInitView
     public void initView() {
         Log.d(TAG, "initView");
-        getActivity().setTitle(R.string.signup);
 
         step1.setChecked(true);
 

@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:divider="@drawable/divider_horizontal"
         android:showDividers="beginning|middle"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:background="@color/white">
         <FrameLayout
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
