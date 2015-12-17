@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 import com.julun.commons.reflect.ReflectUtil;
-import com.julun.datas.beans.Adv;
 import com.julun.exceptions.ConfigException;
 import com.julun.utils.ApplicationUtils;
 import com.julun.utils.StringHelper;
@@ -317,7 +316,7 @@ public class SimpleLoopViewPager extends FrameLayout {
      *
      * @param response
      */
-    public void afterLoadData(List<Adv> response) {
+    public void afterLoadData(List response) {
         //设置实际有都少条记录.
         setRealItemCount(response.size());
         //初始化子view     createChildrenViews

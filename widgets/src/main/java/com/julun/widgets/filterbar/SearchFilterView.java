@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.julun.datas.beans.Area;
 import com.julun.utils.ApplicationUtils;
 import com.julun.volley.VolleyRequestCallback;
 import com.julun.volley.utils.Requests;
