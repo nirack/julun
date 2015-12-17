@@ -7,7 +7,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.container.uicontroller.BaseActivity;
-import com.julun.datas.beans.Adv;
+import com.julun.business.beans.Adv;
 import com.julun.vehicle.R;
 import com.julun.widgets.adapters.recyclerview.BaseRecyclerViewAdapter;
 import com.julun.widgets.viewholder.recycler.ViewHolder;

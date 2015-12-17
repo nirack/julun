@@ -20,6 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:text="过滤窗口菜单组..."
+        android:gravity="center"
+        android:id="@+id/show_filter_win"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"

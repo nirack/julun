@@ -1,15 +1,14 @@
 package com.julun.volley.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.julun.commons.R;
-import com.julun.commons.images.BitMapCache;
 import com.julun.commons.images.ImageUtils;
 import com.julun.utils.ApplicationUtils;
 import com.julun.utils.ToastHelper;
@@ -44,7 +43,7 @@ public class Requests {
      */
     public static void post(@NonNull String url, String requestTag, @NonNull VolleyRequestCallback callback, Map<String, String>... params) {
         requestTag = requestTag == null ? url : requestTag;
-        ApplicationUtils.getGlobeRequestQueue().cancelAll(requestTag);
+        ApplicationUtils.getGlobalRequestQueue().cancelAll(requestTag);
         Map<String, String> map = new HashMap<>();
         if (params != null) {
             for (Map<String, String> each : params) {
@@ -53,13 +52,13 @@ public class Requests {
         }
         GenericTypedRequest request = new GenericTypedRequest(url, callback, map);
         request.setTag(requestTag);
-        ApplicationUtils.getGlobeRequestQueue().add(request);
-        ApplicationUtils.getGlobeRequestQueue().start();
+        ApplicationUtils.getGlobalRequestQueue().add(request);
+        ApplicationUtils.getGlobalRequestQueue().start();
     }
 
     public static void postByte(@NonNull String url, String requestTag, @NonNull VolleyRequestCallback callback, Map<String, String>... params) {
         requestTag = requestTag == null ? url : requestTag;
-        ApplicationUtils.getGlobeRequestQueue().cancelAll(requestTag);
+        ApplicationUtils.getGlobalRequestQueue().cancelAll(requestTag);
         Map<String, String> map = new HashMap<>();
         if (params != null) {
             for (Map<String, String> each : params) {
@@ -68,8 +67,8 @@ public class Requests {
         }
         ByteArrayRequest request = new ByteArrayRequest(url, callback, map);
         request.setTag(requestTag);
-        ApplicationUtils.getGlobeRequestQueue().add(request);
-        ApplicationUtils.getGlobeRequestQueue().start();
+        ApplicationUtils.getGlobalRequestQueue().add(request);
+        ApplicationUtils.getGlobalRequestQueue().start();
     }
 
     /**
@@ -80,7 +79,7 @@ public class Requests {
      */
     public static void loadImage(@NonNull ImageView view, @NonNull String url) {
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(view, defaultResId, errorImageResId);
-        ApplicationUtils.getGlobeImageLoader().get(url, listener);
+        ApplicationUtils.getGlobalImageLoader().get(url, listener);
     }
 
     /**
@@ -94,8 +93,12 @@ public class Requests {
         ImageLoader.ImageListener listener2 = new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                Bitmap bitmap = response.getBitmap();
-                Bitmap newImg = ImageUtils.zoomImage(bitmap, width, height);
+                Bitmap rawImage = response.getBitmap();
+                if (rawImage == null && errorImageResId != 0) {
+                    rawImage = BitmapFactory.decodeResource(ApplicationUtils.getGlobalApplication().getResources(),errorImageResId);
+                }
+                Bitmap newImg = ImageUtils.createBitmapBySize(rawImage, width, height);
+                rawImage.recycle();
                 view.setImageBitmap(newImg);
             }
             @Override
@@ -105,7 +108,7 @@ public class Requests {
             }
         };
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(view, defaultResId, errorImageResId);
-        ApplicationUtils.getGlobeImageLoader().get(url, listener);
+        ApplicationUtils.getGlobalImageLoader().get(url, listener2);
     }
 
     /**
@@ -115,7 +118,7 @@ public class Requests {
      * @param url
      */
     public static void loadImage4NetImageView(@NonNull NetworkImageView niv, @NonNull String url) {
-        ImageLoader loader = ApplicationUtils.getGlobeImageLoader();
+        ImageLoader loader = ApplicationUtils.getGlobalImageLoader();
         niv.setDefaultImageResId(defaultResId);
         niv.setErrorImageResId(errorImageResId);
         niv.setImageUrl(url, loader);

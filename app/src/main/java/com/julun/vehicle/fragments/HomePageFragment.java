@@ -28,7 +28,7 @@ import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.business.service.IndexService;
 import com.julun.container.uicontroller.BaseFragment;
-import com.julun.datas.beans.County;
+import com.julun.business.beans.County;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.utils.CollectionHelper;
 import com.julun.utils.ToastHelper;
@@ -38,7 +38,7 @@ import com.julun.vehicle.activities.search.SearchProdActivity;
 import com.julun.widgets.adapters.StaggedGridLayoutAdapter;
 import com.julun.widgets.popwin.BasicEasyPopupWindow;
 import com.julun.widgets.utils.PopWinHelper;
-import com.julun.vehicle.viewpagers.SimpleLoopViewPager;
+import com.julun.widgets.viewpager.SimpleLoopViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,7 +161,6 @@ public class HomePageFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         // TODO: 2015-12-01 需要在暂停的时候,让viewpager不再继续循环播放
-        ToastHelper.showLong(getContextActivity(), "暂停，即将前往另外一个 Activity");
         viewPager.stopLoop();
         if(locationClient.isStarted()){
             locationClient.unRegisterLocationListener(bdLocationListener);

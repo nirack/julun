@@ -1,6 +1,6 @@
 package com.julun.business.manage;
 
-import com.julun.business.bean.User;
+import com.julun.business.beans.User;
 import com.julun.utils.SharedPreferencesUtils;
 
 /**

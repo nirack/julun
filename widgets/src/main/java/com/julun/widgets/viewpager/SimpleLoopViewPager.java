@@ -1,4 +1,4 @@
-package com.julun.vehicle.viewpagers;
+package com.julun.widgets.viewpager;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -32,7 +32,6 @@ import com.julun.volley.utils.Requests;
 import com.julun.widgets.R;
 import com.julun.widgets.adapters.listview.BaseListViewAdapter;
 import com.julun.widgets.viewholder.listview.ViewHolder;
-import com.julun.widgets.viewpager.SimpleGridViewIndicator;
 import com.julun.widgets.viewpager.anims.DepthPageTransformer;
 import com.julun.widgets.viewpager.anims.ZoomOutPageTransformer;
 
@@ -144,7 +143,7 @@ public class SimpleLoopViewPager extends FrameLayout {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case STOP_LOOP_FLAG:
-                    ToastHelper.showLong(context.get(),"停止轮播....");
+//                    ToastHelper.showLong(context.get(), "停止轮播....");
                     uihandler.removeMessages(MARCH_ON);
                     break;
                 case MARCH_ON:
@@ -202,8 +201,8 @@ public class SimpleLoopViewPager extends FrameLayout {
         initializerClass = ta.getString(R.styleable.SimpleLoopViewPager_viewItemInitializer);
         try {
             initializer = (ViewItemInitializer) ReflectUtil.getClass(initializerClass).newInstance();
-//            initializer.setLooperView(this);
-//            initializer.setCxt(this.context);
+            initializer.setLooperView(this);
+            initializer.setContext(context.get());
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(LOG_TAG, "获取初始化对象的接口出错,cause：\n" + e.getMessage());
@@ -219,8 +218,8 @@ public class SimpleLoopViewPager extends FrameLayout {
                 Log.e(LOG_TAG, "获取 子view 的点击事件处理器 出错,cause：\n" + e.getMessage());
                 throw new RuntimeException(e);
             }
-        }else{
-            if(!ItemClickListener.class.isAssignableFrom(context.get().getClass())){
+        } else {
+            if (!ItemClickListener.class.isAssignableFrom(context.get().getClass())) {
                 throw new RuntimeException(new ConfigException("需要为 " + this.getClass().getName() + "配置 itemClickHandler ,或者引入 该组件的 Activity 实现 " + ItemClickListener.class.getName() + "接口."));
             }
             itemClickListener = (ItemClickListener) context.get();
@@ -233,7 +232,7 @@ public class SimpleLoopViewPager extends FrameLayout {
 
         layoutInflater = LayoutInflater.from(this.context.get());
         View realView = layoutInflater.inflate(R.layout.simple_loop_view_pager, null);
-//        viewPager = (ViewPager) realView.findViewById(R.id.view_pager);
+//        looperView = (ViewPager) realView.findViewById(R.id.view_pager);
         viewPager = new ViewPager(context.get());
 
         //设置动画
@@ -294,7 +293,7 @@ public class SimpleLoopViewPager extends FrameLayout {
         btn.setBackgroundResource(R.drawable.app_title_bg_shape);
         btn.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        param.weight =1;
+        param.weight = 1;
         param.leftMargin = 3;
         param.rightMargin = 3;
         btn.setLayoutParams(param);
@@ -304,37 +303,18 @@ public class SimpleLoopViewPager extends FrameLayout {
 
     public void requestAndProcessData(String requestUrl) {
         requestUrl = StringHelper.ifEmpty(requestUrl, this.requestUrl);
-
         if (StringHelper.isEmpty(requestUrl)) {
             throw new IllegalArgumentException("缺少参数 [ requestUrl ]");
         }
         adapter = new LoopAdapter();
-
-
-        VolleyRequestCallback<List<Adv>> callback = new VolleyRequestCallback<List<Adv>>(context.get()) {
-            @Override
-            public void doOnSuccess(List<Adv> response) {
-                //response.getRecords()
-                afterLoadData(response);
-            }
-
-            @Override
-            public void doOnFailure(VolleyError error) {
-                String message = error.getMessage();
-                Throwable cause = error.getCause();
-                message = StringHelper.ifEmpty(message, cause != null ? cause.getMessage() : "未能获取错误信息。。。");
-                String msg = "错误发生：" + message + " , 本次请求 耗时： " + error.getNetworkTimeMs();
-                ToastHelper.showLong(this.getContext().get(), msg);
-            }
-        };
-
         final String reqUrl = requestUrl;
         String url = StringHelper.isNotHttpUrl(reqUrl) ? ApplicationUtils.BASE_URL_PREFIX + reqUrl : reqUrl;
-        Requests.post(url, url, callback);
+        Requests.post(url, url, initializer.getRequestCallback());
     }
 
     /**
      * 加载完数据之后需要处理的
+     *
      * @param response
      */
     public void afterLoadData(List<Adv> response) {
@@ -345,7 +325,7 @@ public class SimpleLoopViewPager extends FrameLayout {
         for (Integer index = 0; index < size; index++) {
             Object obj = response.get(index);
             //初始化的时候保证了 initializer不为空,否则抛出运行时异常
-            View view = initializer.initializeView(context.get(),obj,layoutInflater);
+            View view = initializer.eachItem(index);
             childrenViews.put(index, view);
             dataBinded.put(index, obj);
             addIndicators(index);
@@ -395,7 +375,7 @@ public class SimpleLoopViewPager extends FrameLayout {
         this.uihandler.sendEmptyMessage(MARCH_ON);
     }
 
-    public void stopLoop(){
+    public void stopLoop() {
         uihandler.sendEmptyMessage(STOP_LOOP_FLAG);
     }
 
@@ -515,15 +495,41 @@ public class SimpleLoopViewPager extends FrameLayout {
      * 实现类必须提供无参构造函数.以方便通过映射方式获取实例.
      */
     public abstract static class ViewItemInitializer<T> {
+
+        protected SimpleLoopViewPager looperView;//setL looperView
+        protected WeakReference<Context> cxt;
+        protected WeakHashMap<Integer, View> viewMap = new WeakHashMap<>();
+
         /**
          * 完全自主化,随便返回任意的View都可以.返回的View将会作为ViewPager的子view.
          *
          * @param context
-         * @param data           在实现类里要自己转型为实际的对象.使用之前自己要知道.
+         * @param data    在实现类里要自己转型为实际的对象.使用之前自己要知道.
          * @return
          */
-        public abstract View initializeView(Context context, T data, LayoutInflater layoutInflater);
+        public abstract List<View> initializeView(Context context, List<T> data);
 
+        public abstract VolleyRequestCallback<List<T>> getRequestCallback();
+
+        public final View eachItem(Integer position){
+            return viewMap.get(position);
+        }
+
+        public void onLoadError(VolleyError error) {
+            String message = error.getMessage();
+            Throwable cause = error.getCause();
+            message = StringHelper.ifEmpty(message, cause != null ? cause.getMessage() : "未能获取错误信息。。。");
+            String msg = "错误发生：" + message + " , 本次请求 耗时： " + error.getNetworkTimeMs();
+            ToastHelper.showLong(cxt.get(), msg);
+        }
+
+        public final void setContext(Context context) {
+            cxt = new WeakReference<Context>(context);
+        }
+
+        public final void setLooperView(SimpleLoopViewPager vp){
+            this.looperView = vp;
+        }
     }
 
     /**

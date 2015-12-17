@@ -40,7 +40,7 @@ public class ApplicationUtils {
 /*
 
     private static final String ipAddress = "120.26.67.181";
-    private static final String webAppName = "sales";
+    private static final String webAppName = "vehicle";
     private static final String portNumber = "8088";
 */
 
@@ -48,9 +48,11 @@ public class ApplicationUtils {
 //        private static final String ipAddress = "192.168.2.105";
 
     private static final String ipAddress = "192.168.1.117";
+//    private static final String ipAddress = "192.168.0.103";
 //    private static final String webAppName = "sales";
     private static final String webAppName = "";
     private static final String portNumber = "80";
+
 
     public static final String BASE_URL_PREFIX = "http://" + ipAddress + ":" + portNumber + "/" + webAppName + "/";
 
@@ -235,15 +237,15 @@ public class ApplicationUtils {
         }
     }
 
-    public static ImageLoader getGlobeImageLoader() {
+    public static ImageLoader getGlobalImageLoader() {
         return imageLoader;
     }
 
-    public static RequestQueue getGlobeRequestQueue() {
+    public static RequestQueue getGlobalRequestQueue() {
         return requestQueue;
     }
 
-    public static Application getGolbeApplication() {
+    public static Application getGlobalApplication() {
         return application.get();
     }
 }

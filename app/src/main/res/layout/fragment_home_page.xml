@@ -60,7 +60,7 @@
             android:layout_width="match_parent" />
     -->
 
-    <com.julun.vehicle.viewpagers.SimpleLoopViewPager
+    <com.julun.widgets.viewpager.SimpleLoopViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -72,7 +72,7 @@
         app:requestUrl="index/queryAdvs"
         app:stopLoopOnTouch="true"
         app:indicaterReact="true"
-        app:viewItemInitializer="com.julun.vehicle.viewpagers.SimpleHomeAdvInitializer"></com.julun.vehicle.viewpagers.SimpleLoopViewPager>
+        app:viewItemInitializer="com.julun.vehicle.viewpagers.SimpleHomeAdvInitializer"></com.julun.widgets.viewpager.SimpleLoopViewPager>
 
 
     <TextView

@@ -33,7 +33,7 @@ public class LoadProgressWin extends BasicEasyPopupWindow {
     static Animation anima;
 
 
-    private int SCREEN_OFFSET = ScreenUtils.getScreenHeight(cxt.get());
+    private int SCREEN_OFFSET = ScreenUtils.getScreenHeight();
 
     private int nextImg() {
         int next = (currentIndex + 1 + ANI_RES_IDS.length) % ANI_RES_IDS.length;

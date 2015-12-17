@@ -1,4 +1,4 @@
-package com.julun.business.bean;
+package com.julun.business.beans;
 
 /**
  * Created by danjp on 2015/12/15.

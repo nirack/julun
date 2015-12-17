@@ -17,10 +17,13 @@ import com.julun.vehicle.activities.examples.BuyListViewExampleActivity;
 import com.julun.vehicle.activities.examples.ListViewExampleActivity;
 import com.julun.vehicle.activities.examples.PopWinTestActivity;
 import com.julun.vehicle.activities.examples.RecyclerViewExampleActivity;
+import com.julun.vehicle.activities.examples.RefreshViewTest2Activity;
+import com.julun.vehicle.activities.examples.RefreshViewTestActivity;
+import com.julun.vehicle.activities.login.LoginActivity;
 import com.julun.vehicle.fragments.CargoFragment;
 import com.julun.vehicle.fragments.HomePageFragment;
 import com.julun.vehicle.fragments.ShoppingCartFragment;
-import com.julun.vehicle.fragments.user.UserMainFragment;
+import com.julun.vehicle.fragments.UserInfoFragment;
 
 import butterknife.Bind;
 import butterknife.OnCheckedChanged;
@@ -43,7 +46,7 @@ public class MainActivity extends BaseActivity {
     RadioGroup mainNavRadio;
 
     private HomePageFragment homePageFragment;
-    private UserMainFragment userInfoFragment;
+    private UserInfoFragment userInfoFragment;
     private ShoppingCartFragment shoppingCartFragment;
     private CargoFragment cargoFragment;
     private FragmentManager fragmentManager;
@@ -52,7 +55,7 @@ public class MainActivity extends BaseActivity {
     public void afterInitViews() {
         // TODO: fragment直接new，如果遇到问题 再改作其他的方式
         homePageFragment = new HomePageFragment();
-        userInfoFragment = new UserMainFragment();
+        userInfoFragment = new UserInfoFragment();
         shoppingCartFragment = new ShoppingCartFragment();
         cargoFragment = new CargoFragment();
         fragmentManager = this.getFragmentManager();
@@ -89,6 +92,7 @@ public class MainActivity extends BaseActivity {
                     frag = userInfoFragment;
                 }
                 drawAbleResId = checked ? R.drawable.ic_account_circle_green_a700_24dp : R.drawable.ic_account_circle_black_24dp;
+                jumpActivity(LoginActivity.class);
                 break;
         }
 
@@ -131,6 +135,13 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.show_buy_list_view:
                 jumpActivity(BuyListViewExampleActivity.class);
+                break;
+            case R.id.refresh_test:
+                jumpActivity(RefreshViewTestActivity.class);
+                break;
+
+            case R.id.refresh_test2:
+                jumpActivity(RefreshViewTest2Activity.class);
                 break;
         }
         return true;

@@ -1,25 +1,26 @@
 package com.julun.vehicle.activities.examples;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.container.uicontroller.BaseActivity;
+import com.julun.utils.ScreenUtils;
 import com.julun.vehicle.R;
 import com.julun.widgets.adapters.listview.BaseListViewAdapter;
+import com.julun.widgets.popwin.BasicEasyPopupWindow;
 import com.julun.widgets.popwin.LoadProgressWin;
+import com.julun.widgets.filterbar.SearchFilterView;
 import com.julun.widgets.refreshable.RefreshableView;
 import com.julun.widgets.utils.PopWinHelper;
 import com.julun.widgets.viewholder.listview.ViewHolder;
@@ -36,6 +37,8 @@ public class PopWinTestActivity extends BaseActivity implements RefreshableView{
     Button stop_anmi;
     @Bind(R.id.list_view)
     ListView listView;
+    @Bind(R.id.show_filter_win)
+    Button filterWin;
 
     private LoadProgressWin loadingPopWin;
     private BaseListViewAdapter<Integer> listAdapter;
@@ -96,7 +99,7 @@ public class PopWinTestActivity extends BaseActivity implements RefreshableView{
     }
 
 
-    @OnClick({R.id.show_loading, R.id.stop_anmi})
+    @OnClick({R.id.show_loading, R.id.stop_anmi,R.id.show_filter_win})
     public void btnClick(View view) {
         switch (view.getId()) {
             case R.id.show_loading:
@@ -107,8 +110,24 @@ public class PopWinTestActivity extends BaseActivity implements RefreshableView{
 //                    loadingPopWin.stop();
                 }
                 break;
+            case R.id.show_filter_win:
+                showFilterWin(view);
+                break;
         }
 
+    }
+
+    private void showFilterWin(final View view) {
+        SearchFilterView contentView = new SearchFilterView(this);
+
+        BasicEasyPopupWindow popWin = PopWinHelper.getPopWin(this, contentView).width(ScreenUtils.getScreenWidth());
+        int color = R.color.turquoise;//各种颜色试一下
+        color = R.color.lightskyblue;
+        color = R.color.darkseagreen;
+        color = R.color.lightblue;//lightcyan
+        color = R.color.lightcyan;//
+        popWin.setBackgroundDrawable(getResources().getDrawable(color));
+        popWin.showAsDropDown(view);
     }
 
     private void showLoading(final View view) {
