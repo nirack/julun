@@ -23,7 +23,7 @@ import com.julun.vehicle.activities.login.LoginActivity;
 import com.julun.vehicle.fragments.CargoFragment;
 import com.julun.vehicle.fragments.HomePageFragment;
 import com.julun.vehicle.fragments.ShoppingCartFragment;
-import com.julun.vehicle.fragments.UserInfoFragment;
+import com.julun.vehicle.fragments.user.UserMainFragment;
 
 import butterknife.Bind;
 import butterknife.OnCheckedChanged;
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
     RadioGroup mainNavRadio;
 
     private HomePageFragment homePageFragment;
-    private UserInfoFragment userInfoFragment;
+    private UserMainFragment userMainFragment;
     private ShoppingCartFragment shoppingCartFragment;
     private CargoFragment cargoFragment;
     private FragmentManager fragmentManager;
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
     public void afterInitViews() {
         // TODO: fragment直接new，如果遇到问题 再改作其他的方式
         homePageFragment = new HomePageFragment();
-        userInfoFragment = new UserInfoFragment();
+        userMainFragment = new UserMainFragment();
         shoppingCartFragment = new ShoppingCartFragment();
         cargoFragment = new CargoFragment();
         fragmentManager = this.getFragmentManager();
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_mime_stuff:
                 if (checked) {
-                    frag = userInfoFragment;
+                    frag = userMainFragment;
                 }
                 drawAbleResId = checked ? R.drawable.ic_account_circle_green_a700_24dp : R.drawable.ic_account_circle_black_24dp;
                 jumpActivity(LoginActivity.class);
