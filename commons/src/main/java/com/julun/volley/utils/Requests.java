@@ -83,6 +83,18 @@ public class Requests {
     }
 
     /**
+     * 加载图片，压缩图片至最大宽度和高度
+     * @param view
+     * @param url
+     * @param maxWidth
+     * @param maxHeight
+     */
+    public static void loadImage(@NonNull ImageView view, @NonNull String url, int maxWidth, int maxHeight) {
+        ImageLoader.ImageListener listener = ImageLoader.getImageListener(view, defaultResId, errorImageResId);
+        ApplicationUtils.getGlobalImageLoader().get(url, listener, maxWidth, maxHeight);
+    }
+
+    /**
      * 加载图片并调整到指定的大小.
      *  @param view
      * @param url
