@@ -33,7 +33,7 @@ public class LoginService extends BusiBaseService {
         map.put("password", password);
         map.put("captcha", captcha);
 
-        /*Context cxt = context != null ? context.get() : null;
+        Context cxt = context != null ? context.get() : null;
         VolleyRequestCallback<String> callback = new VolleyRequestCallback<String>(cxt) {
             @Override
             public void doOnSuccess(String response) {
@@ -48,7 +48,7 @@ public class LoginService extends BusiBaseService {
                 dataLoadedAndTellUiThread(event);
             }
         };
-        Requests.post(url, null, callback, map);*/
+        Requests.post(url, null, callback, map);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
