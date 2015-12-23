@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.julun.container.BaseContainerInitializer;
 import com.julun.container.UIContainerEvnProvider;
 import com.julun.event.events.BaseSimpleEvent;
-import com.julun.event.events.DataChangeEvent;
 import com.julun.event.events.FailureEvent;
 
 import butterknife.ButterKnife;

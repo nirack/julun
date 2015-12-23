@@ -7,7 +7,6 @@ import android.os.Handler;
 import com.julun.annotations.views.ContentLayout;
 import com.julun.container.uicontroller.BaseActivity;
 import com.julun.utils.ApplicationUtils;
-import com.julun.vehicle.activities.MainActivity;
 
 @ContentLayout(R.layout.activity_welcome)
 public class WelcomeActivity extends BaseActivity {

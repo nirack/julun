@@ -16,13 +16,13 @@
 
 package com.julun.zxing.decoding;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
-import com.julun.container.uicontroller.BaseActivity;
 
 import java.util.Hashtable;
 import java.util.Vector;
@@ -31,7 +31,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * This thread does all the heavy lifting of decoding the images.
  */
-public final class DecodeThread<T extends BaseActivity> extends Thread {
+public final class DecodeThread<T extends Activity> extends Thread {
 
     public static final String BARCODE_BITMAP = "barcode_bitmap";
     private final T activity;

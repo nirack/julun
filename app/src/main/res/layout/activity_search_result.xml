@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.julun.vehicle.activities.search.SearchResultActivity">
+    tools:context="com.julun.vehicle.search.SearchResultActivity">
 
     <LinearLayout
         android:id="@+id/query_type_bar"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.julun.vehicle.activities.scan.CaptureResultActivity">
+    tools:context="com.julun.vehicle.qrcode.scan.CaptureResultActivity">
 
     <RelativeLayout
         android:id="@+id/layout_top"

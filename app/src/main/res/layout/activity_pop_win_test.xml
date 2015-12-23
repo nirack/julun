@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.julun.vehicle.activities.examples.PopWinTestActivity">
+    tools:context="com.julun.vehicle.activity.examples.PopWinTestActivity">
 
     <Button
         android:text="加载..."

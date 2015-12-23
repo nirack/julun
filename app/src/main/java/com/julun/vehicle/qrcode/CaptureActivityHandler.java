@@ -28,7 +28,7 @@ import android.util.Log;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.julun.commons.R;
-import com.julun.vehicle.activities.scan.QRCodeActivity;
+import com.julun.vehicle.qrcode.scan.QRCodeActivity;
 import com.julun.widgets.qrscan.view.ViewfinderResultPointCallback;
 import com.julun.zxing.CameraManager;
 import com.julun.zxing.decoding.DecodeThread;

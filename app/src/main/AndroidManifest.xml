@@ -35,7 +35,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".app.BaseApplication"
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -56,23 +56,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.examples.ListViewExampleActivity" />
-        <activity android:name=".activities.examples.RecyclerViewExampleActivity" />
-        <activity android:name=".activities.scan.QRCodeActivity" />
-        <activity android:name=".activities.scan.CaptureResultActivity" />
-        <activity android:name=".activities.search.SearchProdActivity" />
-        <activity android:name=".activities.search.SearchResultActivity" />
-        <activity android:name=".activities.examples.RefreshViewTestActivity"/>
-        <activity android:name=".activities.examples.RefreshViewTest2Activity"/>
-        <activity android:name=".activities.examples.PopWinTestActivity"></activity>
-        <activity android:name=".activities.login.LoginActivity"></activity>
-        <activity android:name=".activities.examples.BuyListViewExampleActivity"/>
-        <activity android:name=".activities.examples.BuyRecyclerExampleActivity"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".activity.examples.ListViewExampleActivity" />
+        <activity android:name=".activity.examples.RecyclerViewExampleActivity" />
+        <activity android:name=".qrcode.scan.QRCodeActivity" />
+        <activity android:name=".qrcode.scan.CaptureResultActivity" />
+        <activity android:name=".search.SearchProdActivity" />
+        <activity android:name=".search.SearchResultActivity" />
+        <activity android:name=".activity.examples.RefreshViewTestActivity"/>
+        <activity android:name=".activity.examples.RefreshViewTest2Activity"/>
+        <activity android:name=".activity.examples.PopWinTestActivity"></activity>
+        <activity android:name=".user.login.LoginActivity"></activity>
+        <activity android:name=".activity.examples.BuyListViewExampleActivity"/>
+        <activity android:name=".activity.examples.BuyRecyclerExampleActivity"/>
 
-        <activity android:name=".activities.examples.DanjpListViewExampleActivity">
+        <activity android:name=".activity.examples.DanjpListViewExampleActivity">
         </activity>
-        <activity android:name=".activities.examples.DanjpActivity">
+        <activity android:name=".activity.examples.DanjpActivity">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,6 +1,5 @@
 package com.julun.container.uicontroller;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +12,6 @@ import android.view.View;
 import com.julun.container.BaseContainerInitializer;
 import com.julun.container.UIContainerEvnProvider;
 import com.julun.event.events.BaseSimpleEvent;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
