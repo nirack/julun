@@ -54,7 +54,9 @@ public class GenericTypedRequest<T> extends Request<String> {
     }
 
     /**
-     * 返回数据的初步处理,由于一些比如List或者自定义的泛型类的解析稍有点麻烦,需要获取 ParameterizedType ，而在 VolleyRequestCallback 里获取更合适（目前认为这种方式更合适）
+     *
+     * 返回数据的初步处理,由于一些比如List或者自定义的泛型类的解析稍有点麻烦,需要获取 ParameterizedType ，
+     * 而在 VolleyRequestCallback 里获取更合适（目前认为这种方式更合适）
      * 就放在 Callback 里处理,这里就返回String给 VolleyRequestCallback 用来解析成具体的 JavaBean.
      * @see VolleyRequestCallback
      * @param response

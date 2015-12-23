@@ -10,10 +10,16 @@ import android.widget.ListView;
 
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
+import com.julun.business.beans.Area;
 import com.julun.container.uicontroller.BaseActivity;
 import com.julun.business.beans.Adv;
+import com.julun.event.EventBusUtils;
+import com.julun.event.events.DataChangeEvent;
+import com.julun.utils.ApplicationUtils;
 import com.julun.utils.DateHelper;
+import com.julun.utils.JsonHelper;
 import com.julun.vehicle.R;
+import com.julun.volley.utils.Requests;
 import com.julun.widgets.adapters.listview.BaseListViewAdapter;
 import com.julun.widgets.viewholder.listview.ViewHolder;
 
@@ -21,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 @ContentLayout(R.layout.activity_list_view_example)
 public class ListViewExampleActivity extends BaseActivity {
@@ -93,7 +102,6 @@ public class ListViewExampleActivity extends BaseActivity {
     }
 
 
-
     private void addDatas() {
 //        adapter.clear();
 //        datas.clear();
@@ -118,6 +126,35 @@ public class ListViewExampleActivity extends BaseActivity {
 
     int btn1change = 0;
     int btn2change = 0;
+
+    @OnClick({R.id.btn1, R.id.btn2})
+    public void onclick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.btn1:
+                doRequest();
+                break;
+            case R.id.btn2:
+                break;
+        }
+    }
+
+    EventBus eventbus = EventBusUtils.getNonDefaultEventBus();
+
+    private void doRequest() {
+        String url = ApplicationUtils.BASE_URL_PREFIX + "index/area";
+        String tag = url;
+
+
+        DataChangeEvent<List<Area>> event = new DataChangeEvent<>();
+        Requests.post0(url, tag, event, eventbus);
+    }
+
+    @Subscribe
+    public void subscript(DataChangeEvent<List<Area>> event) {
+        Log.i(TAG, JsonHelper.toJson(event));
+    }
+
 
     //    @OnClick({R.id.btn1, R.id.btn2})
     public void start(View view) {
