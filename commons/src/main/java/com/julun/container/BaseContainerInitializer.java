@@ -16,17 +16,13 @@ import com.julun.commons.reflect.ReflectUtil;
 import com.julun.commons.reflect.base.ClassInfo;
 import com.julun.container.uicontroller.BaseActivity;
 import com.julun.container.uicontroller.BaseFragment;
-import com.julun.event.EventBusCacher;
 import com.julun.event.EventBusUtils;
-import com.julun.event.processor.EventRegisterCenter;
 import com.julun.exceptions.ConfigException;
 import com.julun.utils.CollectionHelper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.ButterKnife;

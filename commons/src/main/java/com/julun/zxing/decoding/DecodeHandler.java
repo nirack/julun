@@ -30,13 +30,12 @@ import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.julun.commons.R;
-import com.julun.container.uicontroller.BaseActivity;
 import com.julun.zxing.CameraManager;
 import com.julun.zxing.PlanarYUVLuminanceSource;
 
 import java.util.Hashtable;
 
-final class DecodeHandler<T extends BaseActivity> extends Handler {
+final class DecodeHandler<T extends Activity> extends Handler {
 
     private static final String TAG = DecodeHandler.class.getSimpleName();
 
@@ -94,7 +93,7 @@ final class DecodeHandler<T extends BaseActivity> extends Handler {
             multiFormatReader.reset();
         }
 
-        if (rawResult != null) {
+        /*if (rawResult != null) {
             long end = System.currentTimeMillis();
             Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
             Message message = Message.obtain(activity.getHandler(), R.id.decode_succeeded,
@@ -107,7 +106,7 @@ final class DecodeHandler<T extends BaseActivity> extends Handler {
         } else {
             Message message = Message.obtain(activity.getHandler(), R.id.decode_failed);
             message.sendToTarget();
-        }
+        }*/
     }
 
 }

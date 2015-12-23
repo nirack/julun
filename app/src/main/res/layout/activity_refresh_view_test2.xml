@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.julun.vehicle.activities.examples.RefreshViewTest2Activity">
+    tools:context="com.julun.vehicle.activity.examples.RefreshViewTest2Activity">
 
     <com.julun.widgets.ui.refreshable.SimpleRefreshView
         android:id="@+id/simpleRefreshView"
