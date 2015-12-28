@@ -26,34 +26,38 @@
         <RadioButton
             android:id="@+id/btn_home_page"
             style="@style/main_tab_bottom"
+            android:button="@null"
             android:layout_marginTop="2.0dip"
-            android:drawableTop="@drawable/ic_home_black_24dp"
+            android:drawableTop="@drawable/ic_home_selector"
             android:text="@string/txt_home_page"
-            android:textColor="@color/black_totally" />
+            android:textColor="@color/black_totally_color" />
 
         <RadioButton
             android:id="@+id/btn_machine_parts"
             style="@style/main_tab_bottom"
+            android:button="@null"
             android:layout_marginTop="2.0dip"
-            android:drawableTop="@drawable/ic_search_black_24dp"
+            android:drawableTop="@drawable/ic_cargo_selector"
             android:text="@string/txt_machine_parts"
-            android:textColor="@color/black_totally" />
+            android:textColor="@color/black_totally_color" />
 
         <RadioButton
             android:id="@+id/btn_shopping_cart"
             style="@style/main_tab_bottom"
+            android:button="@null"
             android:layout_marginTop="2.0dip"
-            android:drawableTop="@drawable/ic_shopping_cart_black_24dp"
+            android:drawableTop="@drawable/ic_shopping_selector"
             android:text="@string/txt_shopping_cart"
-            android:textColor="@color/black_totally" />
+            android:textColor="@color/black_totally_color" />
 
         <RadioButton
             android:id="@+id/btn_mime_stuff"
             style="@style/main_tab_bottom"
+            android:button="@null"
             android:layout_marginTop="2.0dip"
-            android:drawableTop="@drawable/ic_account_circle_black_24dp"
+            android:drawableTop="@drawable/ic_account_selector"
             android:text="@string/txt_mine_stuff"
-            android:textColor="@color/black_totally" />
+            android:textColor="@color/black_totally_color" />
 
     </RadioGroup>
 
