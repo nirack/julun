@@ -20,7 +20,6 @@ import com.android.volley.toolbox.Volley;
 import com.julun.commons.R;
 import com.julun.commons.images.BitMapCache;
 import com.julun.constants.PreferencesConstans;
-import com.julun.constants.SystemConstants;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -47,8 +46,8 @@ public class ApplicationUtils {
 //    private static final String ipAddress = "192.168.1.128";
 //        private static final String ipAddress = "192.168.2.105";
 
-    private static final String ipAddress = "192.168.1.159";
-//    private static final String ipAddress = "192.168.0.101";
+//    private static final String ipAddress = "192.168.1.159";
+    private static final String ipAddress = "192.168.0.101";
 //    private static final String webAppName = "sales";
     private static final String webAppName = "";
     private static final String portNumber = "8080";
