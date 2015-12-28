@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.julun.business.BusiBaseService;
 import com.julun.event.events.DataChangeEvent;
+import com.julun.event.events.FailureEvent;
 import com.julun.utils.ApplicationUtils;
 
 import java.lang.ref.WeakReference;
@@ -45,6 +46,7 @@ public abstract class SimpleServiceRequestPoster<T> {
 
             @Override
             public void doOnFailure(VolleyError error) {
+                service.dataLoadedAndTellUiThread (new FailureEvent (error.toString ()));
                 Log.d(SimpleServiceRequestPoster.class.getName(), "doOnFailure() called with: " + "error = [" + error + "]");
             }
         };
