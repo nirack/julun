@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  *  更简洁的请求方式，在Services里请求之后，直接调用  dataLoadedAndTellUiThread 方法。
  */
-public abstract class SimpleRequestPoster<T> {
+public abstract class SimpleServiceRequestPoster<T> {
     private final Type type;
     WeakReference<Context> cxt;
     private VolleyRequestCallback<T> requestCallback;
@@ -24,7 +24,7 @@ public abstract class SimpleRequestPoster<T> {
     private String url;
     private Map<String,String> params;
 
-    public SimpleRequestPoster( Context context, String url, BusiBaseService service, Map<String, String> params) {
+    public SimpleServiceRequestPoster (Context context, String url, BusiBaseService service, Map<String, String> params) {
         type = getSuperclassTypeParameter(getClass());
 
         init(context,url, service, params);
@@ -39,13 +39,13 @@ public abstract class SimpleRequestPoster<T> {
         requestCallback = new VolleyRequestCallback<T>(cxt,type) {
             @Override
             public void doOnSuccess(T response) {
-                Log.i(SimpleRequestPoster.class.getName(),response.getClass().getName());
+                Log.i(SimpleServiceRequestPoster.class.getName(),response.getClass().getName());
                 service.dataLoadedAndTellUiThread(new DataChangeEvent<T>(response));
             }
 
             @Override
             public void doOnFailure(VolleyError error) {
-                Log.d(SimpleRequestPoster.class.getName(), "doOnFailure() called with: " + "error = [" + error + "]");
+                Log.d(SimpleServiceRequestPoster.class.getName(), "doOnFailure() called with: " + "error = [" + error + "]");
             }
         };
     }

@@ -11,7 +11,7 @@ import com.julun.datas.PageResult;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.event.events.FailureEvent;
 import com.julun.utils.ApplicationUtils;
-import com.julun.volley.SimpleRequestPoster;
+import com.julun.volley.SimpleServiceRequestPoster;
 import com.julun.volley.VolleyRequestCallback;
 import com.julun.volley.utils.Requests;
 
@@ -30,7 +30,7 @@ public class IndexService extends BusiBaseService {
         map.put("parent", new Integer(1).toString());
         Context cxt = context != null ? context.get():null;
         
-        SimpleRequestPoster<PageResult<Cargo>> sender = new SimpleRequestPoster<PageResult<Cargo>>(cxt,url,this,map){};
+        SimpleServiceRequestPoster<PageResult<Cargo>> sender = new SimpleServiceRequestPoster<PageResult<Cargo>> (cxt,url,this,map){};
         sender.post();
     }
 
