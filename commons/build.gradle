@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         minSdkVersion 14
@@ -41,7 +41,9 @@ dependencies {
     //这里要用双引号,Groovy的语法
     compile "com.mcxiaoke.volley:library:$volleyVersion"
     //奇怪的问题。。。拷贝了双份的  pinyin4jxx.jar 的 pom
-//    compile "com.belerweb:pinyin4j:$pinyin4jVersion"
+//    compile "com.belerweb:pinyin4j:$pinyin4jVersion
+    //几万次以上的解析,fastjson的速度优势才体现出来,并没有太大的卵用，，几万次。。。。解析又不是非常友好，放弃使用
+    //    compile 'com.alibaba:fastjson:1.2.7'
     compile "com.google.code.gson:gson:$gsonVersion"
     compile "de.greenrobot:eventbus:$enventBusVewsion"
 //    compile "de.greenrobot:java-common:$greenJavaCommonVersion"

@@ -42,6 +42,16 @@ public abstract class VolleyRequestCallback<T>{
 
     public VolleyRequestCallback(WeakReference<Context> context) {
         this.type = getSuperclassTypeParameter(getClass());
+        init(context);
+    }
+
+
+    public VolleyRequestCallback(WeakReference<Context> cxt, Type type) {
+        this.type = type;
+        init(cxt);
+    }
+
+    private void init(WeakReference<Context> context) {
         this.context = context;
         this.successListener = new Response.Listener<String>() {
             @Override

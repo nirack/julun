@@ -31,7 +31,7 @@ public abstract class BusiBaseService implements BusiBaseServiceInterface{
      * @param event
      * @param <T>
      */
-    protected <T extends BaseSimpleEvent> void dataLoadedAndTellUiThread(T event){
+    public <T extends BaseSimpleEvent> void dataLoadedAndTellUiThread(T event){
         Log.i(getClass().getName(), "dataLoadedAndTellUiThread() called with: " + "event = [" + event + "]");
         mainEventBus4Post.post(event);
     }

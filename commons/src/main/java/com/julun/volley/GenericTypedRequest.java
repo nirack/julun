@@ -36,12 +36,6 @@ public class GenericTypedRequest<T> extends Request<String> {
         param = map;
     }
 
-    public GenericTypedRequest(String url, Response.Listener<String> successListener, Response.ErrorListener errorListener, Map<String, String> map) {
-        super(Request.Method.POST, url, errorListener);
-        this.successListener = successListener;
-        param = map;
-    }
-
     /**
      * 通过这个方法解决普通参数传递问题.这个一定要覆盖，一定要覆盖，一定要覆盖！！！！！
      *

@@ -39,5 +39,11 @@
         android:title="刷新22"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/slide_row_menu"
+        android:orderInCategory="100"
+        android:title="侧滑行按钮"
+        app:showAsAction="never" />
+
 
 </menu>

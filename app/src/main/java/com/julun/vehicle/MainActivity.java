@@ -18,6 +18,7 @@ import com.julun.vehicle.activity.examples.PopWinTestActivity;
 import com.julun.vehicle.activity.examples.RecyclerViewExampleActivity;
 import com.julun.vehicle.activity.examples.RefreshViewTest2Activity;
 import com.julun.vehicle.activity.examples.RefreshViewTestActivity;
+import com.julun.vehicle.activity.examples.RowSlideMenuActivity;
 import com.julun.vehicle.cargo.CargoFragment;
 import com.julun.vehicle.home.HomePageFragment;
 import com.julun.vehicle.shopping.ShoppingCartFragment;
@@ -139,6 +140,9 @@ public class MainActivity extends BaseActivity {
 
             case R.id.refresh_test2:
                 jumpActivity(RefreshViewTest2Activity.class);
+                break;
+            case R.id.slide_row_menu:
+                jumpActivity(RowSlideMenuActivity.class);
                 break;
         }
         return true;

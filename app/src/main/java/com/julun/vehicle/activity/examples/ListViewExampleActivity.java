@@ -132,7 +132,7 @@ public class ListViewExampleActivity extends BaseActivity {
         int id = view.getId();
         switch (id) {
             case R.id.btn1:
-                doRequest();
+//                doRequest();
                 break;
             case R.id.btn2:
                 break;
@@ -140,15 +140,6 @@ public class ListViewExampleActivity extends BaseActivity {
     }
 
     EventBus eventbus = EventBusUtils.getNonDefaultEventBus();
-
-    private void doRequest() {
-        String url = ApplicationUtils.BASE_URL_PREFIX + "index/area";
-        String tag = url;
-
-
-        DataChangeEvent<List<Area>> event = new DataChangeEvent<>();
-        Requests.post0(url, tag, event, eventbus);
-    }
 
     @Subscribe
     public void subscript(DataChangeEvent<List<Area>> event) {

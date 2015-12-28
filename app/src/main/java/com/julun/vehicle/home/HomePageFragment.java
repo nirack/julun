@@ -26,9 +26,11 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.julun.annotations.business.BusinessBean;
 import com.julun.annotations.views.AfterInitView;
 import com.julun.annotations.views.ContentLayout;
+import com.julun.business.beans.Cargo;
 import com.julun.business.service.IndexService;
 import com.julun.container.uicontroller.BaseFragment;
 import com.julun.business.beans.County;
+import com.julun.datas.PageResult;
 import com.julun.event.events.DataChangeEvent;
 import com.julun.utils.CollectionHelper;
 import com.julun.utils.ToastHelper;
@@ -281,5 +283,9 @@ public class HomePageFragment extends BaseFragment {
             adapter.insertData(0, c.getCountyName());
             adapter.notifyItemChanged(0);
         }
+    }
+    
+    public void processCarge(DataChangeEvent<PageResult<Cargo>> event){
+        Log.d(this.getClass().getName(), "processCarge: ");
     }
 }
